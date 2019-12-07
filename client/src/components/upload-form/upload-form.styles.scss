@@ -1,0 +1,29 @@
+.upload-question {
+    width: 100%;
+    flex-direction: column;
+    border: solid;
+
+    .question-container {
+      width: 80%;
+      display: flex;
+      margin: auto;
+      justify-content: space-evenly;
+    }
+
+    .question-answer {
+      flex-direction: column;
+      width: 50%;
+      display: flex;
+    }
+
+    .question-properties {
+      width: 30%;
+    }
+
+    .btn.btn-primary {
+        margin: auto;
+        margin-left: 80%;
+    }
+
+  }
+

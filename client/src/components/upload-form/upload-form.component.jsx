@@ -15,9 +15,11 @@ const UploadForm = ({ upload }) => {
         answer: '',
         difficulty: '',
         marks: '', 
+        examBoards: [],
+        topics: []
     })
 
-    const { question, answer, marks, difficulty } = formData;
+    const { question, answer, marks, difficulty, examBoards, topics } = formData;
 
     const onChange = e =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +27,25 @@ const UploadForm = ({ upload }) => {
     const onSubmit = async e => {
         e.preventDefault();
         console.log(formData);
-        upload({ question, answer, marks, difficulty });
+        upload({ question, answer, marks, difficulty, examBoards, topics });
+    }
+
+    const checkExamBoards = async e => {
+        if(e.target.checked && !(formData.examBoards.includes(e.target.value))) {
+            setFormData({ ...formData, examBoards: [...formData.examBoards, e.target.value] })
+        }
+        else {
+            setFormData({ ...formData, examBoards: [...formData.examBoards.filter(item => item !== e.target.value)] });
+        }
+    }
+
+    const checkTopics = async e => {
+        if(e.target.checked && !(formData.topics.includes(e.target.value))) {
+            setFormData({ ...formData, topics: [...formData.topics, e.target.value] })
+        }
+        else {
+            setFormData({ ...formData, topics: [...formData.topics.filter(item => item !== e.target.value)] });
+        }
     }
 
     return (
@@ -38,7 +58,7 @@ const UploadForm = ({ upload }) => {
                         name='question'
                         value={question}
                         onChange={e => onChange(e)}
-                        label='Question'
+                        label='Question' 
                     />
                     <FormInput  
                         type='text'
@@ -50,19 +70,25 @@ const UploadForm = ({ upload }) => {
                 </div>
                 <div className='question-properties'>
                     <h3>Exam Boards</h3>
-                    <div className='option-section'>
+                    <div className='option-section'
+                        value={examBoards}
+                        onChange={e => checkExamBoards(e)}
+                    >
                         <span className='question-option-container'><input className='question-option' type="checkbox" name="AQA" value="AQA" /> AQA</span>
                         <span className='question-option-container'><input className='question-option' type="checkbox" name="Edexcel" value="Edexcel" /> Edexcel</span>
                         <span className='question-option-container'><input className='question-option' type="checkbox" name="OCR" value="OCR" /> OCR</span>
                         <span className='question-option-container'><input className='question-option' type="checkbox" name="WJEC" value="WJEC" /> WJEC</span>
                     </div>
                     <h3>Topics</h3>
-                    <div className='option-section'>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Numbers" value="Numbers" /> Numbers </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Fractions" value="Fractions" /> Fractions </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Shapes" value="Shapes" /> Shapes </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Graphs" value="Graphs" /> Graphs </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Algebra" value="Algebra" /> Algebra </span> 
+                    <div className='option-section'
+                        value={topics}
+                        onChange={e => checkTopics(e)}
+                    >
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Numbers" value="Numbers" /> Number </span>
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Fractions" value="Fractions" /> Algebra </span>
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Shapes" value="Shapes" /> Ratio, Proportion and Rates of change </span>
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Graphs" value="Graphs" /> Geometry and Measures </span>
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Algebra" value="Algebra" /> Statistics & Probability </span> 
                     </div>
                     <h3>Total Marks</h3>
                     <FormInput  

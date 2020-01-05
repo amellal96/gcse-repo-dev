@@ -17,7 +17,25 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    dateJoined: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    school: {
+        type: String
+    },
+    accountType: {
+        type: String,
+        enum: ['student', 'admin'],
+        required: true
+    },
+    savedQuestions: [{
+        type: String,
+        required: true,
+        default: []
+    }]
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

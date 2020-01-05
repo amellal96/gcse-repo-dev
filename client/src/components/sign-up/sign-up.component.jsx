@@ -20,17 +20,18 @@ const SignUp = ({ register }) => {
     school: ''
   })
 
-  const { firstName, surname, email, password, password2, school } = formData;
+  const { firstName, surname, email, password, password2, school, accountType } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
     e.preventDefault();
+    console.log(formData);
     if (password !== password2) {
       console.log("Passwords don't match");
     } else {
-      register({ firstName, surname, email, password });
+      register({ firstName, surname, email, password, school, accountType });
     }
   };
 
@@ -87,7 +88,12 @@ const SignUp = ({ register }) => {
                 label='School'
             />
             <span>Are you a student or teacher?</span>
-            <select>
+            <select
+            name='accountType'
+            value={accountType}
+            onChange={e => onChange(e)}
+            >
+                <option value='0'>* Select</option>
                 <option value="student">Student</option>
                 <option value="teacher">Teacher</option>
             </select>

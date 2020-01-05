@@ -5,7 +5,7 @@ import {
     UPLOAD_FAIL
 } from './types';
 
-export const upload = ({ question, answer, marks, difficulty }) => async dispatch => {
+export const upload = ({ question, answer, marks, difficulty, examBoards, topics }) => async dispatch => {
     const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -14,7 +14,7 @@ export const upload = ({ question, answer, marks, difficulty }) => async dispatc
 
     console.log("Upload question API being called");
 
-    const body = JSON.stringify({ question, answer, marks, difficulty });
+    const body = JSON.stringify({ question, answer, marks, difficulty, examBoards, topics });
 
     try {
         const res = await axios.post('/api/questions', body, config);

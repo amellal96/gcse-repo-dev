@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-// import { ReactComponent as Logo } from '../../assets/logo.png';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+// import { createStructuredSelector } from 'reselect';
 
 import './header.styles.scss';
 
-const Header = () => (
+const Header = ({ currentUser }) => (
     <div className='header'>
         <img src='../assets/logo.png'  alt='site-logo'/>
         <div className='options'>
@@ -20,9 +21,15 @@ const Header = () => (
             <Link className='option' to="/upload">
                 UPLOAD
             </Link>  
-            <Link className='option' to="/signin">
+            {currentUser ? (
+                <div className='option' onClick={() => console.log("Clicked sign out")}>
+                    SIGN OUT
+                </div>
+            ) : (
+                <Link className='option' to='/signin'>
                 SIGN IN
-            </Link>  
+                </Link>
+            )}
             <Link className='option' to="/">
                 ABOUT
             </Link>    
@@ -30,4 +37,8 @@ const Header = () => (
     </div>
 );
 
-export default Header; 
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser
+});
+
+export default connect(mapStateToProps)(Header);

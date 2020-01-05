@@ -10,13 +10,15 @@ const Question = require('../../models/Question');
 router.post('/', [],
 async(req, res) => {
     console.log(req.body);
-    const { question, answer, marks, difficulty } = req.body;
+    const { question, answer, marks, difficulty, examBoards, topics } = req.body;
     try {
         questionUpload = new Question({
             question,
             answer,
             marks,
-            difficulty
+            difficulty,
+            examBoards,
+            topics
         })
         console.log("I GOT UP TO THERE");
         // console.log(question);

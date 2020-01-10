@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://amellal:Buckbeak123!@cluster0-r5fqa.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
+}

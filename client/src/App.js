@@ -17,7 +17,7 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        <Switch>
+        <Switch> 
           <Route exact path='/' component={HomePage} />
           <Route path='/upload' component={Upload} />
           <Route path='/browse' component={Browse} />

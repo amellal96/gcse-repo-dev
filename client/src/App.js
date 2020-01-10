@@ -12,8 +12,7 @@ import "bootswatch/dist/sketchy/bootstrap.min.css";
 import './App.css';
 
 
-class App extends React.Component {
-  render() {
+const App = () =>  {
     return (
       <div>
         <Header />
@@ -25,7 +24,6 @@ class App extends React.Component {
         </Switch>
       </div>
     );
-  }
 }
 
 export default App;

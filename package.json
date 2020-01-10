@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "http://127.0.0.1:9000",
   "author": "Adam Mellal",
   "license": "ISC",
   "dependencies": {

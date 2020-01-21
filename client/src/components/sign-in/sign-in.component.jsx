@@ -7,8 +7,9 @@ import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
 import './sign-in.styles.scss';
+import { Redirect } from 'react-router';
 
-const SignIn = ({ login }) => {
+const SignIn = ({ login, isAuthenticated }) => {
     const[formData, setFormData] = useState({
         email: '',
         password: ''
@@ -24,6 +25,11 @@ const SignIn = ({ login }) => {
         console.log(formData);
         login(email, password);
     };
+
+    // Redirect if logged in
+    if(isAuthenticated) {
+        return <Redirect to='/dashboard' />
+    }
 
     return (
         <div className='sign-in'>
@@ -52,14 +58,15 @@ const SignIn = ({ login }) => {
 }
 
 SignIn.propTypes = {
-    login: PropTypes.func.isRequired
-  };
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+};
   
-  const mapStateToProps = state => ({
-    
-  });
+const mapStateToProps = state => ({
+    isAuthenticated: state.user.isAuthenticated    
+});
   
-  export default connect(
+export default connect(
     mapStateToProps,
     { login }
-  )(SignIn); 
+) (SignIn); 

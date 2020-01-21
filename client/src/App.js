@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Header from './components/header/header.component';
@@ -7,23 +7,36 @@ import Upload from './pages/upload/upload.component';
 import HomePage from './pages/homepage/homepage.component';
 import Browse from './pages/browse/browse.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import Dashboard from './pages/dashboard/dashboard.component';
+
+import { loadUser } from './actions/auth';
+import setAuthToken from './utils/setAuthToken';
 
 import "bootswatch/dist/sketchy/bootstrap.min.css"; 
 import './App.css';
+import store from './redux/store';
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
-const App = () =>  {
-    return (
-      <div>
-        <Header />
-        <Switch> 
-          <Route exact path='/' component={HomePage} />
-          <Route path='/upload' component={Upload} />
-          <Route path='/browse' component={Browse} />
-          <Route path='/signin' component={SignInAndSignUpPage} />
-        </Switch>
-      </div>
-    );
+const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
+  return (
+    <div>
+      <Header />
+      <Switch> 
+        <Route exact path='/' component={HomePage} />
+        <Route path='/upload' component={Upload} />
+        <Route path='/browse' component={Browse} />
+        <Route path='/signin' component={SignInAndSignUpPage} />
+        <Route path='/dashboard' component={Dashboard} />
+      </Switch>
+    </div>
+  );
 }
 
 export default App;

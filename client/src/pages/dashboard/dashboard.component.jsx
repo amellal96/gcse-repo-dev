@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import './dashboard.styles.scss';
 
-const Dashboard = ({ auth, user }) => {
-    return (
-        <h1>Welcome { auth.token } !</h1>
+const Dashboard = ({ user: {user} }) => {
+        return (
+        <h1>Welcome { user.firstName } {user.surname}!</h1>
     )
 }
 
@@ -15,8 +15,8 @@ Dashboard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    auth: state.user,
-    user: state.user.user
+    user: state.user,
+    // user: state.user.user
 });
 
 export default connect(mapStateToProps) (Dashboard);

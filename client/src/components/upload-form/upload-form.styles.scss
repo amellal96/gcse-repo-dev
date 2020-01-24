@@ -1,7 +1,7 @@
 .upload-question {
     width: 100%;
     flex-direction: column;
-    border: solid;
+    border: solid; 
 
     .question-container {
       width: 80%;
@@ -16,8 +16,12 @@
       display: flex;
     }
 
-    .question-properties {
-      width: 30%;
+    .option-selection {
+      column-count: 2;
+    }
+
+    .question-option-container {
+      display: block;
     }
 
     .btn.btn-primary {

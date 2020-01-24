@@ -7,8 +7,6 @@ import './upload.styles.scss';
 // import connect from '../../db/db-handling';
 
 class UploadQuestion extends React.Component {
-  
-
   render() {
     return (
       <div className='homepage'>

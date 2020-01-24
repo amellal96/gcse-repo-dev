@@ -2,8 +2,10 @@ import axios from 'axios';
 
 import {
     UPLOAD_SUCCESS,
-    UPLOAD_FAIL
-} from './types';
+    UPLOAD_FAIL,
+    GET_QUESTIONS_SUCCESS,
+    GET_QUESTIONS_FAIL
+} from '../redux/question/question.types';
 
 export const upload = ({ question, answer, marks, difficulty }) => async dispatch => {
     const config = {
@@ -35,4 +37,22 @@ export const upload = ({ question, answer, marks, difficulty }) => async dispatc
           type:UPLOAD_FAIL
       });
     }
+}
+
+export const getQuestions = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/questions');
+        
+        console.log("Printing actions call for questions:")
+        console.log(res.data);
+        dispatch({
+            type: GET_QUESTIONS_SUCCESS,
+            payload: res.data
+        });
+    } catch(err) {
+        dispatch({
+            type: GET_QUESTIONS_FAIL
+        })
+    }
+    
 }

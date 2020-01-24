@@ -6,7 +6,7 @@ const Question = require('../../models/Question');
 
 // @route   POST api/questions
 // @desc    Upload question
-// @access  Public
+// @access  Private
 router.post('/', [],
 async(req, res) => {
     console.log(req.body);
@@ -20,8 +20,7 @@ async(req, res) => {
             examBoards,
             topics
         })
-        console.log("I GOT UP TO THERE");
-        // console.log(question);
+        
         await questionUpload.save();
     }
     catch(err) {
@@ -31,5 +30,19 @@ async(req, res) => {
     }
 }
 );
+
+// @route   POST api/questions
+// @desc    Get question
+// @access  Private
+router.get('/', async (req, res) => {
+    console.log("GETTING QUESTIONS - FIRST LOGGING");
+    try {
+        const questions = await Question.find();
+        res.json(questions);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
 
 module.exports = router;

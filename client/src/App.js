@@ -8,6 +8,7 @@ import HomePage from './pages/homepage/homepage.component';
 import Browse from './pages/browse/browse.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import Dashboard from './pages/dashboard/dashboard.component';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
@@ -33,7 +34,7 @@ const App = () => {
         <Route path='/upload' component={Upload} />
         <Route path='/browse' component={Browse} />
         <Route path='/signin' component={SignInAndSignUpPage} />
-        <Route path='/dashboard' component={Dashboard} />
+        <PrivateRoute path='/dashboard' component={Dashboard} />
       </Switch>
     </div>
   );

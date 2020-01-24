@@ -70,7 +70,7 @@ const UploadForm = ({ upload }) => {
                 </div>
                 <div className='question-properties'>
                     <h3>Exam Boards</h3>
-                    <div className='option-section'
+                    <div className='option-selection'
                         value={examBoards}
                         onChange={e => checkExamBoards(e)}
                     >
@@ -80,7 +80,7 @@ const UploadForm = ({ upload }) => {
                         <span className='question-option-container'><input className='question-option' type="checkbox" name="WJEC" value="WJEC" /> WJEC</span>
                     </div>
                     <h3>Topics</h3>
-                    <div className='option-section'
+                    <div className='option-selection'
                         value={topics}
                         onChange={e => checkTopics(e)}
                     >

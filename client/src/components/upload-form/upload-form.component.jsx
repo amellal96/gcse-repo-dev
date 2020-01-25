@@ -48,7 +48,7 @@ const UploadForm = ({ upload }) => {
         }
     }
 
-    return (
+    return ( 
         <div className='upload-question'>
             <h2>Upload New Question</h2>
             <form className='question-container' onSubmit={e => onSubmit(e)}>

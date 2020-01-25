@@ -43,8 +43,6 @@ export const getQuestions = () => async dispatch => {
     try {
         const res = await axios.get('/api/questions');
         
-        console.log("Printing actions call for questions:")
-        console.log(res.data);
         dispatch({
             type: GET_QUESTIONS_SUCCESS,
             payload: res.data

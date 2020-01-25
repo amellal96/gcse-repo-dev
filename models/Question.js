@@ -36,6 +36,10 @@ const QuestionSchema = new mongoose.Schema({
         required: true,
         default: 'Unknown User'
     },
+    published: {
+        type: Boolean,
+        required: true
+    },
     rating: {
         type: Number,
         required: true,

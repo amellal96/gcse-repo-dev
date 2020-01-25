@@ -35,7 +35,6 @@ async(req, res) => {
 // @desc    Get question
 // @access  Private
 router.get('/', async (req, res) => {
-    console.log("GETTING QUESTIONS - FIRST LOGGING");
     try {
         const questions = await Question.find();
         res.json(questions);

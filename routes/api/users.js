@@ -42,20 +42,20 @@ router.post('/', [
 
             await user.save();
 
-            // const payload = {
-            //     user: {
-            //         id: user.id
-            //     }
-            // }
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            }
 
-            // jwt.sign(
-            //     payload, 
-            //     config.get('jwtSecret'), 
-            //     { expiresIn: 360000 },
-            //     (err, token) => {
-            //         if(err) throw err;
-            //         res.json({ token });
-            //     });
+            jwt.sign(
+                payload, 
+                config.get('jwtSecret'), 
+                { expiresIn: 360000 },
+                (err, token) => {
+                    if(err) throw err;
+                    res.json({ token });
+                });
 
         }   
         catch(err) { 

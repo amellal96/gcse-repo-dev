@@ -12,17 +12,17 @@ import PrivateRoute from './components/routing/PrivateRoute';
 
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
+import store from './redux/store';
 
 import "bootswatch/dist/sketchy/bootstrap.min.css"; 
 import './App.css';
-import store from './redux/store';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
 const App = () => {
-  useEffect(() => {
+  useEffect(() => { 
     store.dispatch(loadUser());
   }, []);
 

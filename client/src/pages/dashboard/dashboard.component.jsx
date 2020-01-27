@@ -2,8 +2,6 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-
-import { loadUser } from '../../actions/auth';
 import square from '../../images/square.png';
 
 import './dashboard.styles.scss';
@@ -14,14 +12,10 @@ const Dashboard = ({ user: {user}, isAuthenticated }) => {
     // }
 
     // console.log(isAuthenticated);
-    useEffect(() => {
-        (loadUser());
-    }, []);
     
     return (
         <div>
-            {/* <h1>Welcome { user.firstName }</h1> */}
-            <h1>Welcome</h1>
+            <h1>Welcome { user && user.firstName }</h1>
             <h3>Links</h3>
             
             <div className='options-container'>

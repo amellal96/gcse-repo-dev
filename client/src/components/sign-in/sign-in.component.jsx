@@ -22,7 +22,6 @@ const SignIn = ({ login, isAuthenticated }) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        console.log(formData);
         login(email, password);
     };
 

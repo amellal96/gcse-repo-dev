@@ -29,7 +29,7 @@ export const loadUser = () => async dispatch => {
     dispatch({
       type: AUTH_ERROR
     });
-  }
+  } 
 }
   
 // Register User
@@ -52,7 +52,7 @@ export const register = ({ firstName, surname, email, password, accountType }) =
       payload: res.data
     });
 
-    // dispatch(loadUser());
+    dispatch(loadUser());
   } catch (err) {
     // const errors = err.response.data.errors;
 

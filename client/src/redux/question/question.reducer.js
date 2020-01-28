@@ -1,6 +1,7 @@
 import {
     GET_QUESTIONS_SUCCESS,
-    GET_QUESTIONS_FAIL
+    GET_QUESTIONS_FAIL,
+    GET_SUBMITTED_QUESTIONS
 } from './question.types';
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const questionReducer = (state = INITIAL_STATE, action) => {
 
     switch(type) {
         case GET_QUESTIONS_SUCCESS:
+        case GET_SUBMITTED_QUESTIONS:
             return {
                 ...state,
                 questions: payload,

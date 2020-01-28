@@ -11,7 +11,6 @@ class UploadQuestion extends React.Component {
     return (
       <div className='homepage'>
       <UploadQuestionForm />
-      <button >Connect</button>
       </div>
     )
   }

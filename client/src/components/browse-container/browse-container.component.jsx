@@ -32,7 +32,7 @@ const BrowseContainer = ({ getQuestions, question: { questions } }) => {
                     <td>{question.topics.map(topic => <div>{topic}</div>)}</td>
                     <td>{question.examBoards.map(board => <div>{board}</div>)}</td>
                     <td>{question.difficulty}</td>
-                    <td>Unsaved</td>
+                    <td><button type="button" className="btn btn-primary">Save</button></td>
                   </tr>
                 </Fragment>
             )}
@@ -42,13 +42,12 @@ const BrowseContainer = ({ getQuestions, question: { questions } }) => {
     )
   };
   
-  BrowseContainer.propTypes = {
-    getQuestions: PropTypes.func.isRequired,
-    questions: PropTypes.object.isRequired
-  };
+BrowseContainer.propTypes = {
+  getQuestions: PropTypes.func.isRequired,
+};
   
-  const mapStateToProps = state => ({
-   question: state.question
-  });
+const mapStateToProps = state => ({
+  question: state.question
+});
   
-  export default connect(mapStateToProps, { getQuestions }) (BrowseContainer);
+export default connect(mapStateToProps, { getQuestions }) (BrowseContainer);

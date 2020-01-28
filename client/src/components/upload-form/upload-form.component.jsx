@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { upload } from '../../actions/upload';
+import { upload } from '../../actions/questions';
 
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
-import Checkboxes from '../checkboxes/checkboxes.component';
 
 import './upload-form.styles.scss';
 
-const UploadForm = ({ upload }) => {
+const UploadForm = ({ upload, user: { user } }) => {
     const[formData, setFormData] = useState({
         question: '',
         answer: '',
@@ -20,6 +19,7 @@ const UploadForm = ({ upload }) => {
     })
 
     const { question, answer, marks, difficulty, examBoards, topics } = formData;
+    const submittedBy = user && user.email;
 
     const onChange = e =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +27,7 @@ const UploadForm = ({ upload }) => {
     const onSubmit = async e => {
         e.preventDefault();
         console.log(formData);
-        upload({ question, answer, marks, difficulty, examBoards, topics });
+        upload({ question, answer, marks, difficulty, examBoards, topics, submittedBy});
     }
 
     const checkExamBoards = async e => {
@@ -115,11 +115,12 @@ const UploadForm = ({ upload }) => {
 }
 
 UploadForm.propTypes = {
-    upload: PropTypes.func.isRequired
+    upload: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
 };  
 
 const mapStateToProps = state => ({
-  
+    user: state.user
 });
 
 export default connect(mapStateToProps, { upload }) (UploadForm);

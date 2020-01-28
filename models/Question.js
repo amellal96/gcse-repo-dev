@@ -33,12 +33,12 @@ const QuestionSchema = new mongoose.Schema({
     },
     submittedBy: {
         type: String,
-        required: true,
-        default: 'Unknown User'
+        required: true
     },
     published: {
         type: Boolean,
-        required: true
+        required: true,
+        default: true
     },
     rating: {
         type: Number,

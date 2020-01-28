@@ -4,10 +4,11 @@ import {
     UPLOAD_SUCCESS,
     UPLOAD_FAIL,
     GET_QUESTIONS_SUCCESS,
-    GET_QUESTIONS_FAIL
+    GET_QUESTIONS_FAIL,
+    GET_SUBMITTED_QUESTIONS
 } from '../redux/question/question.types';
 
-export const upload = ({ question, answer, marks, difficulty }) => async dispatch => {
+export const upload = ({ question, answer, marks, difficulty, examBoards, topics, submittedBy }) => async dispatch => {
     const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -16,10 +17,10 @@ export const upload = ({ question, answer, marks, difficulty }) => async dispatc
 
     console.log("Upload question API being called");
 
-    const body = JSON.stringify({ question, answer, marks, difficulty });
+    const body = JSON.stringify({ question, answer, marks, difficulty, examBoards, topics, submittedBy });
 
     try {
-        const res = await axios.post('http://localhost:5000/api/questions', body, config);
+        const res = await axios.post('/api/questions', body, config);
 
         dispatch({
             type: UPLOAD_SUCCESS,
@@ -27,11 +28,12 @@ export const upload = ({ question, answer, marks, difficulty }) => async dispatc
           });
     }
     catch(err) {
-        const errors = err.response.data.errors;
+        console.log("FIRST BIT DIDN'T WORK");
+        // const errors = err.response.data.errors;
   
-      if (errors) {
-        console.log(err);
-      }
+    //   if (errors) {
+    //     console.log(err);
+    //   }
 
       dispatch({
           type:UPLOAD_FAIL
@@ -52,5 +54,21 @@ export const getQuestions = () => async dispatch => {
             type: GET_QUESTIONS_FAIL
         })
     }
-    
+}
+
+export const getSubmittedQuestions = email => async dispatch => {
+    console.log("Printing email")
+    console.log(email);
+    try {
+        const res = await axios.get(`/api/questions/${email}`);
+        
+        dispatch({
+            type: GET_SUBMITTED_QUESTIONS,
+            payload: res.data
+        });
+    } catch(err) {
+        dispatch({
+            type: GET_QUESTIONS_FAIL
+        })
+    }
 }

@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-// @route   POST api/questions
+// @route   GET api/questions
 // @desc    Get submitted questions
 router.get('/:submitted', async (req, res) => {
     try {

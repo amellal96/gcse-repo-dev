@@ -3,12 +3,34 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getQuestions } from '../../actions/questions';
-import { saveQuestion } from '../../actions/user';
+import { saveQuestion, unsaveQuestion } from '../../actions/user';
 
-const BrowseContainer = ({ getQuestions, saveQuestion, question: { questions }, user: { user }}) => {
+const BrowseContainer = ({ getQuestions, saveQuestion, unsaveQuestion, question: { questions }, user: { user }}) => {
     useEffect(() => {
       getQuestions();
     }, [getQuestions]);
+
+    const saveButton = (questionId) => (
+      <div className='save'>
+        <button 
+          type="button" 
+          className="btn btn-primary" 
+          onClick={() => saveQuestion(questionId)}>
+          Save
+        </button>
+      </div>
+    )
+
+    const unsaveButton = (questionId) => (
+      <div className='save'>
+        <button 
+          type="button" 
+          className="btn btn-primary"
+          onClick={() => unsaveQuestion(questionId)}>
+          Unsave
+        </button>
+      </div>
+    )
   
     return (
       <div className='homepage'>  
@@ -34,11 +56,8 @@ const BrowseContainer = ({ getQuestions, saveQuestion, question: { questions }, 
                     <td>{question.topics.map(topic => <div key={question._id + topic}>{topic}</div>)}</td>
                     <td>{question.examBoards.map(board => <div key={question._id + board}>{board}</div>)}</td>
                     <td>{question.difficulty}</td>
-                    <td><button 
-                      type="button" 
-                      className="btn btn-primary" 
-                      onClick={() => saveQuestion(question._id)}>
-                        Save</button>
+                    <td>
+                      <Fragment>{ user && (user.savedQuestions).includes(question._id) ? unsaveButton(question._id) : saveButton(question._id) }</Fragment>
                     </td>
                   </tr>
                 </Fragment>
@@ -51,7 +70,8 @@ const BrowseContainer = ({ getQuestions, saveQuestion, question: { questions }, 
   
 BrowseContainer.propTypes = {
   getQuestions: PropTypes.func.isRequired,
-  saveQuestion: PropTypes.func.isRequired
+  saveQuestion: PropTypes.func.isRequired,
+  unsaveQuestion: PropTypes.func.isRequired
 };
   
 const mapStateToProps = state => ({
@@ -59,4 +79,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
   
-export default connect(mapStateToProps, { getQuestions, saveQuestion }) (BrowseContainer);
+export default connect(mapStateToProps, { getQuestions, saveQuestion, unsaveQuestion }) (BrowseContainer);

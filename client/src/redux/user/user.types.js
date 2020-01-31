@@ -9,3 +9,4 @@ export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const SAVE_QUESTION = 'SAVE_QUESTION';
+export const UNSAVE_QUESTION = 'UNSAVE_QUESTION';

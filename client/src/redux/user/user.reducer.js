@@ -6,7 +6,8 @@ import {
   AUTH_ERROR,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  SAVE_QUESTION
+  SAVE_QUESTION,
+  UNSAVE_QUESTION
 } from './user.types';
 
 const INITIAL_STATE = {
@@ -39,9 +40,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case SAVE_QUESTION:
       return {
         ...state,
-        ...payload,
-        savedQuestions: state.user.savedQuestions
-      }
+        user: { ...state.user, savedQuestions: [...state.user.savedQuestions, payload] }
+      };
+    case UNSAVE_QUESTION:
+      return {
+        ...state,
+        user: { ...state.user, savedQuestions: state.user.savedQuestions.filter(questionId => questionId !== payload) }
+      };
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:

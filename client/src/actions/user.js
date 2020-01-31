@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 import {
-    SAVE_QUESTION, USER_LOADED
+    SAVE_QUESTION,
+    UNSAVE_QUESTION
 } from '../redux/user/user.types';
 
 import {
@@ -11,17 +12,31 @@ import {
 export const saveQuestion = (questionId) => async dispatch => {
     console.log(`Saving question: ${questionId}`);
     try {
-        const res = await axios.post(`/api/users/save/${questionId}`, questionId);
+        await axios.post(`/api/users/save/${questionId}`, questionId);
 
         dispatch({
             type: SAVE_QUESTION,
-            payload: res.data
-        })
+            payload: questionId
+        });
 
-        // dispatch({
-        //     type: USER_LOADED,
-        //     payload: res.data
-        // })
+        
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
+}
+
+export const unsaveQuestion = (questionId) => async dispatch => {
+    console.log(`Unsaving question: ${questionId}`);
+
+    try {
+        await axios.delete(`/api/users/unsave/${questionId}`, questionId);
+
+        dispatch({
+            type: UNSAVE_QUESTION,
+            payload: questionId
+        });
     } catch(err) {
         dispatch({
             type: QUESTION_ERROR

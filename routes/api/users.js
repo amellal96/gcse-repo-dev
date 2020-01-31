@@ -71,15 +71,33 @@ router.post('/', [
 // @desc    Save question
 // @access  Public
 router.post('/save/:questionId', auth,  async (req, res) => {
-    console.log("Gotten to API bit");
-    console.log(req.user.id);
-    console.log(req.params.questionId);
     try {
-        // const user = await User.findById(req.params.id);
         const user = await User.findOne({ _id: req.user.id });
         user.savedQuestions.unshift(req.params.questionId);
 
         await user.save();
+        res.json(user);
+    }   catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    } 
+});
+
+// @route   DELETE api/users
+// @desc    Unsave question
+// @access  Public
+router.delete('/unsave/:questionId', auth,  async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.user.id });
+
+        // Get remove index
+        const removeIndex = user.savedQuestions.indexOf(req.params.questionId);
+
+        user.savedQuestions.splice(removeIndex, 1);
+
+        await user.save();
+
+        res.json(user);
     }   catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');

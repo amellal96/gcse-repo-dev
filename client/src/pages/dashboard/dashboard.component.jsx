@@ -28,8 +28,10 @@ const Dashboard = ({ user: {user} }) => {
                 </div>
 
                 <div className='dashboard-option'>
-                    <div className='option-text'>Saved Questions</div>
-                    <img src={square} alt=''/>
+                    <Link to='/saved-questions'>
+                        <div className='option-text'>Saved Questions</div>
+                        <img src={square} alt=''/>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -5,7 +5,8 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  SAVE_QUESTION
 } from './user.types';
 
 const INITIAL_STATE = {
@@ -35,6 +36,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         isAuthenticated: true,
         loading: false
       };
+    case SAVE_QUESTION:
+      return {
+        ...state,
+        ...payload,
+        savedQuestions: state.user.savedQuestions
+      }
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:

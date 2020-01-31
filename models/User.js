@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     savedQuestions: [{
-        type: String,
+        type: Object,
         required: true,
         default: []
     }]

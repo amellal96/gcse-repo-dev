@@ -1,9 +1,11 @@
 import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { getQuestions } from '../../actions/questions';
 import { connect } from 'react-redux';
 
-const BrowseContainer = ({ getQuestions, question: { questions } }) => {
+import { getQuestions } from '../../actions/questions';
+import { saveQuestion } from '../../actions/user';
+
+const BrowseContainer = ({ getQuestions, saveQuestion, question: { questions }, user: { user }}) => {
     useEffect(() => {
       getQuestions();
     }, [getQuestions]);
@@ -32,7 +34,12 @@ const BrowseContainer = ({ getQuestions, question: { questions } }) => {
                     <td>{question.topics.map(topic => <div key={question._id + topic}>{topic}</div>)}</td>
                     <td>{question.examBoards.map(board => <div key={question._id + board}>{board}</div>)}</td>
                     <td>{question.difficulty}</td>
-                    <td><button type="button" className="btn btn-primary">Save</button></td>
+                    <td><button 
+                      type="button" 
+                      className="btn btn-primary" 
+                      onClick={() => saveQuestion(question._id)}>
+                        Save</button>
+                    </td>
                   </tr>
                 </Fragment>
             )}
@@ -44,10 +51,12 @@ const BrowseContainer = ({ getQuestions, question: { questions } }) => {
   
 BrowseContainer.propTypes = {
   getQuestions: PropTypes.func.isRequired,
+  saveQuestion: PropTypes.func.isRequired
 };
   
 const mapStateToProps = state => ({
-  question: state.question
+  question: state.question,
+  user: state.user
 });
   
-export default connect(mapStateToProps, { getQuestions }) (BrowseContainer);
+export default connect(mapStateToProps, { getQuestions, saveQuestion }) (BrowseContainer);

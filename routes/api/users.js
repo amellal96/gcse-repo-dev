@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 
+const auth = require('../../middleware/auth');
+
 const User = require('../../models/User');
 
 // @route   POST api/users
@@ -64,5 +66,24 @@ router.post('/', [
         }
     }
 );
+
+// @route   POST api/users
+// @desc    Save question
+// @access  Public
+router.post('/save/:questionId', auth,  async (req, res) => {
+    console.log("Gotten to API bit");
+    console.log(req.user.id);
+    console.log(req.params.questionId);
+    try {
+        // const user = await User.findById(req.params.id);
+        const user = await User.findOne({ _id: req.user.id });
+        user.savedQuestions.unshift(req.params.questionId);
+
+        await user.save();
+    }   catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    } 
+});
 
 module.exports = router;

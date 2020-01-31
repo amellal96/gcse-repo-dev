@@ -24,13 +24,13 @@ const BrowseContainer = ({ getQuestions, question: { questions } }) => {
           </thead>
           <tbody>
             {questions.map(question => 
-                <Fragment>
+                <Fragment key={question._id}>
                   <tr className='table-active'>
                     <td>{question.question}</td>
                     <td>{question.answer}</td>
                     <td>{question.marks}</td>
-                    <td>{question.topics.map(topic => <div>{topic}</div>)}</td>
-                    <td>{question.examBoards.map(board => <div>{board}</div>)}</td>
+                    <td>{question.topics.map(topic => <div key={question._id + topic}>{topic}</div>)}</td>
+                    <td>{question.examBoards.map(board => <div key={question._id + board}>{board}</div>)}</td>
                     <td>{question.difficulty}</td>
                     <td><button type="button" className="btn btn-primary">Save</button></td>
                   </tr>

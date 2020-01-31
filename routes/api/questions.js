@@ -72,28 +72,23 @@ router.get('/:submitted', async (req, res) => {
 // @route    DELETE api/posts/:id
 // @desc     Delete a post
 // @access   Private
-// router.delete('/:id', auth, async (req, res) => {
-//     try {
-//       const question = await Question.findById(req.params.id);
+router.delete('/:id', async (req, res) => {
+    try {
+      const question = await Question.findById(req.params.id);
   
-//       // Check for ObjectId format and post
-//       if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !question) {
-//         return res.status(404).json({ msg: 'Question not found' });
-//       }
+      // Check for ObjectId format and post
+      if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !question) {
+        return res.status(404).json({ msg: 'Question not found' });
+      }
+      
+      await question.remove();
   
-//       // Check user
-//     //   if (question.user.toString() !== req.user.id) {
-//     //     return res.status(401).json({ msg: 'User not authorised' });
-//     //   }
+      res.json({ msg: 'Post removed' });
+    } catch (err) {
+      console.error(err.message);
   
-//       await question.remove();
-  
-//       res.json({ msg: 'Post removed' });
-//     } catch (err) {
-//       console.error(err.message);
-  
-//       res.status(500).send('Server Error');
-//     }
-// });
+      res.status(500).send('Server Error');
+    }
+});
 
 module.exports = router;

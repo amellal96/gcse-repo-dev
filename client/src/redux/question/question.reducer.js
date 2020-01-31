@@ -1,7 +1,9 @@
 import {
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAIL,
-    GET_SUBMITTED_QUESTIONS
+    GET_SUBMITTED_QUESTIONS,
+    DELETE_QUESTION,
+    QUESTION_ERROR
 } from './question.types';
 
 const INITIAL_STATE = {
@@ -22,7 +24,14 @@ const questionReducer = (state = INITIAL_STATE, action) => {
                 questions: payload,
                 loading: false
             };
+        case DELETE_QUESTION:
+            return {
+                ...state,
+                questions: state.questions.filter(question => question._id !== payload),
+                loading: false
+            }
         case GET_QUESTIONS_FAIL:
+        case QUESTION_ERROR:
             return {
                 ...state,
                 error: payload,

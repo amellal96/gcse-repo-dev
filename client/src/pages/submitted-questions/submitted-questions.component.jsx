@@ -2,11 +2,11 @@ import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getSubmittedQuestions } from '../../actions/questions'
+import { getSubmittedQuestions, deleteQuestion } from '../../actions/questions'
 
 // import BrowseContainer from '../../components/browse-container/browse-container.component';
 
-const SubmittedQuestions = ({ getSubmittedQuestions, question: { questions }, user: { user } }) => {
+const SubmittedQuestions = ({ getSubmittedQuestions, deleteQuestion, question: { questions }, user: { user } }) => {
     useEffect(() => {
         getSubmittedQuestions(user && user.email);
     }, [getSubmittedQuestions, user]);
@@ -30,18 +30,25 @@ const SubmittedQuestions = ({ getSubmittedQuestions, question: { questions }, us
             </thead>
             <tbody>
                 {questions.map(question => 
-                    <Fragment>
+                    <Fragment key={question._id}>
                     <tr className='table-active'>
                         <td>{question.question}</td>
                         <td>{question.answer}</td>
                         <td>{question.marks}</td>
-                        <td>{question.topics.map(topic => <div>{topic}</div>)}</td>
-                        <td>{question.examBoards.map(board => <div>{board}</div>)}</td>
+                        <td>{question.topics.map(topic => <div key={question._id + topic}>{topic}</div>)}</td>
+                        <td>{question.examBoards.map(board => <div key={question._id + board}>{board}</div>)}</td>
                         <td>{question.difficulty}</td>
                         <td><button type="button" className="btn btn-success">Published</button></td>
                         <td>
-                            <button type="button" className="btn btn-secondary">Edit</button>
-                            <button type="button" className="btn btn-secondary">Delete</button>
+                            <button type="button" className="btn btn-info">Edit</button>
+
+                            <button 
+                            type="button" 
+                            className="btn btn-danger" 
+                            onClick={() => deleteQuestion(question._id)}
+                            >
+                                Delete
+                            </button>
                         </td>
                     </tr>
                     </Fragment>
@@ -54,6 +61,7 @@ const SubmittedQuestions = ({ getSubmittedQuestions, question: { questions }, us
 
 SubmittedQuestions.propTypes = {
     getSubmittedQuestions: PropTypes.func.isRequired,
+    deleteQuestion: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
 };
 
@@ -62,4 +70,4 @@ const mapStateToProps = state => ({
     user: state.user
 });
 
-export default connect(mapStateToProps, { getSubmittedQuestions }) (SubmittedQuestions);
+export default connect(mapStateToProps, { getSubmittedQuestions, deleteQuestion }) (SubmittedQuestions);

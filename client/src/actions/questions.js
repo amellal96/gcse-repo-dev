@@ -5,7 +5,9 @@ import {
     UPLOAD_FAIL,
     GET_QUESTIONS_SUCCESS,
     GET_QUESTIONS_FAIL,
-    GET_SUBMITTED_QUESTIONS
+    GET_SUBMITTED_QUESTIONS,
+    DELETE_QUESTION,
+    QUESTION_ERROR
 } from '../redux/question/question.types';
 
 export const upload = ({ question, answer, marks, difficulty, examBoards, topics, submittedBy }) => async dispatch => {
@@ -52,7 +54,7 @@ export const getQuestions = () => async dispatch => {
     } catch(err) {
         dispatch({
             type: GET_QUESTIONS_FAIL
-        })
+        });
     }
 }
 
@@ -69,6 +71,22 @@ export const getSubmittedQuestions = email => async dispatch => {
     } catch(err) {
         dispatch({
             type: GET_QUESTIONS_FAIL
+        })
+    }
+}
+
+export const deleteQuestion = questionId => async dispatch => { 
+    console.log(`Deleting question: ${questionId}`);
+    try {
+        await axios.delete(`/api/questions/${questionId}`)
+
+        dispatch({
+            type: DELETE_QUESTION,
+            payload: questionId
+        })
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
         })
     }
 }

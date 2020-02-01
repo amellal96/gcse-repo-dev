@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 
 const Question = require('../../models/Question');
+// const ObjectId = require('mongodb');
 
 // @route   POST api/questions
 // @desc    Upload question
@@ -57,17 +58,47 @@ router.get('/:submitted', async (req, res) => {
     }
 })
 
+// @route   GET api/questions
+// @desc    Get saved questions
+router.get('/getsaved/:questionIds', async (req, res) => {
+    console.log("Saved Questions DB call");
+    try {
+        const questions = await Question.find({_id: {$in: req.query.questionIds}});
+        res.json(questions);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
 // @route   POST api/questions
-// @desc    Publish/unpublish question
-// router.get('/:publish', async (req, res) => {
-//     try {
-//         const questions = await Question.findById(req.params.id);
-//         res.json(questions);
-//     } catch(err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-// })
+// @desc    Publish question
+router.put('/publish/:questionId', async (req, res) => {
+    try {
+        const question = await Question.findById(req.params.questionId);
+        question.published = true;
+        await question.save();
+        res.json(question);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route   POST api/questions
+// @desc    Unpublish question
+router.put('/unpublish/:questionId', async (req, res) => {
+    console.log("Unpublish Question");
+    try {
+        const question = await Question.findById(req.params.questionId);
+        question.published = false;
+        await question.save();
+        res.json(question);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
 
 // @route    DELETE api/posts/:id
 // @desc     Delete a post

@@ -3,7 +3,8 @@ import {
     GET_QUESTIONS_FAIL,
     GET_SUBMITTED_QUESTIONS,
     DELETE_QUESTION,
-    QUESTION_ERROR
+    QUESTION_ERROR,
+    QUESTION_PUBLISH_CHANGE
 } from './question.types';
 
 const INITIAL_STATE = {
@@ -28,6 +29,14 @@ const questionReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 questions: state.questions.filter(question => question._id !== payload),
+                loading: false
+            };
+        case QUESTION_PUBLISH_CHANGE:
+            console.log(`Reducer call: ${payload.published}`)
+            return {
+                ...state,
+                questions: state.questions.map(question => 
+                    question._id === payload._id ? { ...question, published: payload.published } : question),
                 loading: false
             }
         case GET_QUESTIONS_FAIL:

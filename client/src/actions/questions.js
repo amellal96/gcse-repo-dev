@@ -7,7 +7,8 @@ import {
     GET_QUESTIONS_FAIL,
     GET_SUBMITTED_QUESTIONS,
     DELETE_QUESTION,
-    QUESTION_ERROR
+    QUESTION_ERROR,
+    QUESTION_PUBLISH_CHANGE
 } from '../redux/question/question.types';
 
 export const upload = ({ question, answer, marks, difficulty, examBoards, topics, submittedBy }) => async dispatch => {
@@ -74,6 +75,23 @@ export const getSubmittedQuestions = email => async dispatch => {
         })
     }
 }
+ 
+export const getSavedQuestions = questionIds => async dispatch => {
+    try {
+        console.log(`Getting saved questions: ${questionIds}`);
+        const res = await axios.get(`/api/questions/getSaved/${questionIds}`, 
+        { params: { questionIds: questionIds} } )
+
+        dispatch({
+            type: GET_QUESTIONS_SUCCESS,
+            payload: res.data
+        })
+    } catch(err) {
+        dispatch({
+            type: GET_QUESTIONS_FAIL
+        })
+    }
+} 
 
 export const deleteQuestion = questionId => async dispatch => { 
     console.log(`Deleting question: ${questionId}`);
@@ -83,6 +101,38 @@ export const deleteQuestion = questionId => async dispatch => {
         dispatch({
             type: DELETE_QUESTION,
             payload: questionId
+        })
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
+}
+
+export const publishQuestion = questionId => async dispatch => {
+    console.log("Publishing question");
+    try {
+        const res = await axios.put(`/api/questions/publish/${questionId}`)
+
+        dispatch({
+            type: QUESTION_PUBLISH_CHANGE,
+            payload: res.data
+        })
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
+}
+
+export const unpublishQuestion = questionId => async dispatch => {
+    console.log("Unpublishing question");
+    try {
+        const res = await axios.put(`/api/questions/unpublish/${questionId}`)
+
+        dispatch({
+            type: QUESTION_PUBLISH_CHANGE,
+            payload: res.data
         })
     } catch(err) {
         dispatch({

@@ -2,17 +2,46 @@ import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getSubmittedQuestions, deleteQuestion } from '../../actions/questions'
+import { getSubmittedQuestions, deleteQuestion, publishQuestion, unpublishQuestion } from '../../actions/questions'
 
 // import BrowseContainer from '../../components/browse-container/browse-container.component';
 
-const SubmittedQuestions = ({ getSubmittedQuestions, deleteQuestion, question: { questions }, user: { user } }) => {
+const SubmittedQuestions = ({ 
+    getSubmittedQuestions, 
+    deleteQuestion, 
+    publishQuestion,
+    unpublishQuestion,
+    question: { questions }, 
+    user: { user } 
+}) => {
     useEffect(() => {
         getSubmittedQuestions(user && user.email);
     }, [getSubmittedQuestions, user]);
 
     // <button type="button" class="btn btn-danger">Danger</button>
     
+    const published = (questionId) => (
+        <div className='save'>
+            <button 
+            type="button" 
+            className="btn btn-success" 
+            onClick={() => unpublishQuestion(questionId)}>
+            Published
+            </button>
+        </div>
+    )
+  
+    const unpublished = (questionId) => (
+        <div className='save'>
+            <button 
+            type="button" 
+            className="btn btn-danger"
+            onClick={() => publishQuestion(questionId)}>
+            Unpublished
+            </button>
+        </div>
+    )
+
     return (
         <div className='homepage'>  
             <table className='table table-hover'>
@@ -25,7 +54,7 @@ const SubmittedQuestions = ({ getSubmittedQuestions, deleteQuestion, question: {
                 <th>Exam Boards</th>
                 <th>Grade</th>
                 <th>Published (click to change)</th>
-                <th>Edit</th>
+                <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +67,9 @@ const SubmittedQuestions = ({ getSubmittedQuestions, deleteQuestion, question: {
                         <td>{question.topics.map(topic => <div key={question._id + topic}>{topic}</div>)}</td>
                         <td>{question.examBoards.map(board => <div key={question._id + board}>{board}</div>)}</td>
                         <td>{question.difficulty}</td>
-                        <td><button type="button" className="btn btn-success">Published</button></td>
+                        <td>
+                            { question && question.published ? published(question._id) : unpublished(question._id) }
+                        </td>
                         <td>
                             <button type="button" className="btn btn-info">Edit</button>
 
@@ -62,6 +93,8 @@ const SubmittedQuestions = ({ getSubmittedQuestions, deleteQuestion, question: {
 SubmittedQuestions.propTypes = {
     getSubmittedQuestions: PropTypes.func.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
+    publishQuestion: PropTypes.func.isRequired,
+    unpublishQuestion: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
 };
 
@@ -70,4 +103,10 @@ const mapStateToProps = state => ({
     user: state.user
 });
 
-export default connect(mapStateToProps, { getSubmittedQuestions, deleteQuestion }) (SubmittedQuestions);
+export default connect(mapStateToProps, { 
+    getSubmittedQuestions, 
+    deleteQuestion, 
+    publishQuestion, 
+    unpublishQuestion }) 
+    (SubmittedQuestions
+);

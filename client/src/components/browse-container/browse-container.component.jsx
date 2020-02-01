@@ -57,7 +57,7 @@ const BrowseContainer = ({ getQuestions, saveQuestion, unsaveQuestion, question:
                     <td>{question.examBoards.map(board => <div key={question._id + board}>{board}</div>)}</td>
                     <td>{question.difficulty}</td>
                     <td>
-                      <Fragment>{ user && (user.savedQuestions).includes(question._id) ? unsaveButton(question._id) : saveButton(question._id) }</Fragment>
+                      { user && (user.savedQuestions).includes(question._id) ? unsaveButton(question._id) : saveButton(question._id) }
                     </td>
                   </tr>
                 </Fragment>

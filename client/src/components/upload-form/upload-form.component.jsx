@@ -86,9 +86,9 @@ const UploadForm = ({ upload, user: { user } }) => {
                     >
                         <span className='question-option-container'> <input className='question-option' type="checkbox" name="Numbers" value="Numbers" /> Number </span>
                         <span className='question-option-container'> <input className='question-option' type="checkbox" name="Fractions" value="Fractions" /> Algebra </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Shapes" value="Shapes" /> Ratio, Proportion and Rates of change </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Graphs" value="Graphs" /> Geometry and Measures </span>
-                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Algebra" value="Algebra" /> Statistics & Probability </span> 
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Ratio, Proportion and Rates of change" value="Ratio, Proportion and Rates of change" /> Ratio, Proportion and Rates of change </span>
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Geometry and Measures" value="Geometry and Measures" /> Geometry and Measures </span>
+                        <span className='question-option-container'> <input className='question-option' type="checkbox" name="Statistics & Probability" value="Statistics & Probability" /> Statistics & Probability </span> 
                     </div>
                     <h3>Total Marks</h3>
                     <FormInput  

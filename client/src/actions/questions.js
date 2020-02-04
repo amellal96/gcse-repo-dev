@@ -8,7 +8,8 @@ import {
     GET_SUBMITTED_QUESTIONS,
     DELETE_QUESTION,
     QUESTION_ERROR,
-    QUESTION_PUBLISH_CHANGE
+    QUESTION_PUBLISH_CHANGE,
+    FILTER_QUESTIONS
 } from '../redux/question/question.types';
 
 export const upload = ({ question, answer, marks, difficulty, examBoards, topics, submittedBy }) => async dispatch => {
@@ -139,4 +140,54 @@ export const unpublishQuestion = questionId => async dispatch => {
             type: QUESTION_ERROR
         })
     }
+};
+
+export const filterQuestions = (filters, questions) => async dispatch => {
+    console.log("FILTERING QUESTIONS");
+    console.log(questions);
+    console.log(filters);
+
+    var filteredQuestions = []
+    
+    // Filter exam boards
+    if(filters.examBoards.length) {
+        console.log("Found exam boards to filter");
+        filteredQuestions = questions.filter(
+            question => question.examBoards.some(
+                examBoard => filters.examBoards.includes(examBoard))
+        );
+    }
+    else{
+        filteredQuestions = questions;
+    }
+
+    console.log(`Length of filteredQuestions after examBoards: ${filteredQuestions.length}`)
+
+    // Filter topics
+    if(filters.topics.length) {
+        console.log("Found topics to filter");
+        filteredQuestions = filteredQuestions.filter(
+            question => question.topics.some(
+                topic => filters.topics.includes(topic))
+        );
+    }
+    console.log(`Length of filteredQuestions after topics: ${filteredQuestions.length}`)
+
+    // console.log("After filter");
+    // console.log(filteredQuestions.length ? filteredQuestions : "IT'S EMPTY");
+    // console.log(filteredQuestions);
+
+    console.log("________________________________");
+
+    try {
+        dispatch({
+            type: FILTER_QUESTIONS,
+            payload: filteredQuestions.length ? filteredQuestions : questions
+        })
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
+
 }

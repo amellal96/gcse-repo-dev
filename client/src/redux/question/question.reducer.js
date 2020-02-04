@@ -4,12 +4,13 @@ import {
     GET_SUBMITTED_QUESTIONS,
     DELETE_QUESTION,
     QUESTION_ERROR,
-    QUESTION_PUBLISH_CHANGE
+    QUESTION_PUBLISH_CHANGE,
+    FILTER_QUESTIONS
 } from './question.types';
 
 const INITIAL_STATE = {
     questions: [],
-    question: null,
+    filteredQuestions: null,
     loading: true,
     error: {}
 }
@@ -23,6 +24,12 @@ const questionReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 questions: payload,
+                loading: false
+            };
+        case FILTER_QUESTIONS:
+            return {
+                ...state,
+                filteredQuestions: payload,
                 loading: false
             };
         case DELETE_QUESTION:

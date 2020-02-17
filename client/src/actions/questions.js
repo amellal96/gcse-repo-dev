@@ -9,7 +9,8 @@ import {
     DELETE_QUESTION,
     QUESTION_ERROR,
     QUESTION_PUBLISH_CHANGE,
-    FILTER_QUESTIONS
+    FILTER_QUESTIONS,
+    RATE_QUESTION
 } from '../redux/question/question.types';
 
 export const upload = ({ question, answer, marks, difficulty, examBoards, topics, submittedBy }) => async dispatch => {
@@ -81,7 +82,7 @@ export const getSavedQuestions = questionIds => async dispatch => {
     try {
         console.log(`Getting saved questions: ${questionIds}`);
         const res = await axios.get(`/api/questions/getSaved/${questionIds}`, 
-        { params: { questionIds: questionIds} } )
+        { params: { questionIds: questionIds }} )
 
         dispatch({
             type: GET_QUESTIONS_SUCCESS,
@@ -151,7 +152,7 @@ export const filterQuestions = (filters, questions) => async dispatch => {
     
     // Filter exam boards
     if(filters.examBoards.length) {
-        console.log("Found exam boards to filter");
+        // console.log("Found exam boards to filter");
         filteredQuestions = questions.filter(
             question => question.examBoards.some(
                 examBoard => filters.examBoards.includes(examBoard))
@@ -161,22 +162,28 @@ export const filterQuestions = (filters, questions) => async dispatch => {
         filteredQuestions = questions;
     }
 
-    console.log(`Length of filteredQuestions after examBoards: ${filteredQuestions.length}`)
+    // console.log(`Length of filteredQuestions after examBoards: ${filteredQuestions.length}`)
 
     // Filter topics
     if(filters.topics.length) {
-        console.log("Found topics to filter");
+        // console.log("Found topics to filter");
         filteredQuestions = filteredQuestions.filter(
             question => question.topics.some(
                 topic => filters.topics.includes(topic))
         );
     }
-    console.log(`Length of filteredQuestions after topics: ${filteredQuestions.length}`)
+    // console.log(`Length of filteredQuestions after topics: ${filteredQuestions.length}`)
 
-    // console.log("After filter");
-    // console.log(filteredQuestions.length ? filteredQuestions : "IT'S EMPTY");
-    // console.log(filteredQuestions);
+    // Difficutly range
+    filteredQuestions = filteredQuestions.filter(
+        question => question.difficulty <= filters.difficulty.max && question.difficulty >= filters.difficulty.min
+    );
+    // console.log(`Length of filteredQuestions after difficulty: ${filteredQuestions.length}`);
 
+    // Marks range
+    filteredQuestions = filteredQuestions.filter(
+        question => question.marks <= filters.marks.max && question.marks >= filters.marks.min
+    );
     console.log("________________________________");
 
     try {
@@ -189,5 +196,27 @@ export const filterQuestions = (filters, questions) => async dispatch => {
             type: QUESTION_ERROR
         })
     }
+};
 
+export const rateQuestion = (rating, questionId, userId) => async dispatch => {
+    console.log("Rating Questions ROUTE");
+    
+    try {
+        const params =  { 
+            rating: rating,
+            userID: userId,
+            questionId: questionId
+        };
+        const res = await axios.put(`/api/questions/rate/`, params)
+
+        dispatch({
+            type: RATE_QUESTION,
+            payload: res.data
+        })
+
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
 }

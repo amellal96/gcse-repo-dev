@@ -1,6 +1,8 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 
+import { setAlert } from './alert';
+
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -11,7 +13,6 @@ import {
   AUTH_ERROR
 } from '../redux/user/user.types';
 
-// Load User
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -32,7 +33,6 @@ export const loadUser = () => async dispatch => {
   } 
 }
   
-// Register User
 export const register = ({ firstName, surname, email, password, accountType }) => async dispatch => {
   const config = {
     headers: {
@@ -67,7 +67,6 @@ export const register = ({ firstName, surname, email, password, accountType }) =
   }
 };
 
-// Login User
 export const login = (email, password) => async dispatch => {
   const config = {
     headers: {
@@ -91,8 +90,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      console.log(err);
-      errors.forEach(error => console.log(error));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({

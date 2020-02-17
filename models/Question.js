@@ -43,8 +43,7 @@ const QuestionSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true,
-        default: 0,
-        max: 5
+        default: 0
     },
     ratings: [{
         userID: String,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
+import { setAlert } from '../../actions/alert';
 
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
@@ -9,7 +10,7 @@ import FormInput from '../form-input/form-input.component';
 
 import './sign-up.styles.scss';
 
-const SignUp = ({ register }) => {
+const SignUp = ({ register, setAlert }) => {
   const[formData, setFormData] = useState({
     firstName: '',
     surname: '',
@@ -29,6 +30,7 @@ const SignUp = ({ register }) => {
     e.preventDefault();
     console.log(formData);
     if (password !== password2) {
+      setAlert('Passwords do not match', 'danger');
       console.log("Passwords don't match");
     } else {
       register({ firstName, surname, email, password, school, accountType });
@@ -104,7 +106,8 @@ const SignUp = ({ register }) => {
   }
 
   SignUp.propTypes = {
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
+    setAlert: PropTypes.func.isRequired
   };
   
   const mapStateToProps = state => ({
@@ -113,5 +116,5 @@ const SignUp = ({ register }) => {
   
   export default connect(
     mapStateToProps,
-    { register }
+    { register, setAlert }
   )(SignUp); 

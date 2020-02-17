@@ -5,7 +5,8 @@ import {
     DELETE_QUESTION,
     QUESTION_ERROR,
     QUESTION_PUBLISH_CHANGE,
-    FILTER_QUESTIONS
+    FILTER_QUESTIONS,
+    RATE_QUESTION
 } from './question.types';
 
 const INITIAL_STATE = {
@@ -39,12 +40,20 @@ const questionReducer = (state = INITIAL_STATE, action) => {
                 loading: false
             };
         case QUESTION_PUBLISH_CHANGE:
-            console.log(`Reducer call: ${payload.published}`)
             return {
                 ...state,
                 questions: state.questions.map(question => 
                     question._id === payload._id ? { ...question, published: payload.published } : question),
                 loading: false
+            }
+        case RATE_QUESTION:
+            return {
+                ...state,
+                questions: state.questions.map(question =>
+                    question._id === payload._id ? { 
+                        ...question, 
+                        ratings: payload.ratings, 
+                        rating: payload.rating }: question)
             }
         case GET_QUESTIONS_FAIL:
         case QUESTION_ERROR:

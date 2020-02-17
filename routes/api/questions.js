@@ -71,7 +71,7 @@ router.get('/getsaved/:questionIds', async (req, res) => {
     }
 })
 
-// @route   POST api/questions
+// @route   PUT api/questions
 // @desc    Publish question
 router.put('/publish/:questionId', async (req, res) => {
     try {
@@ -85,7 +85,7 @@ router.put('/publish/:questionId', async (req, res) => {
     }
 })
 
-// @route   POST api/questions
+// @route   PUT api/questions
 // @desc    Unpublish question
 router.put('/unpublish/:questionId', async (req, res) => {
     console.log("Unpublish Question");
@@ -94,6 +94,60 @@ router.put('/unpublish/:questionId', async (req, res) => {
         question.published = false;
         await question.save();
         res.json(question);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route PUT api/questions
+// @desc Rate question
+router.put('/rate', async (req, res) => {
+    console.log("Rating Questions DB");
+    try {
+        const question = await Question.findById(req.body.questionId);
+        
+        if (!(question.ratings.some(rating => rating.userID === req.body.userID))) {
+            // User has not rated the question
+            console.log("User has not rated this question");
+            
+            question.ratings.unshift({
+                userID: req.body.userID,
+                rating: req.body.rating
+            })
+
+            console.log(`Rating before change: ${question.rating}`);
+            // question.rating = req.body.rating == 1 ? question.rating++ : question.rating--;
+            question.rating = parseInt(question.rating) + parseInt(req.body.rating);
+            console.log(`Rating after change: ${question.rating}`);
+        }
+        else {
+            console.log("User has already rated question");
+            userRating = question.ratings.find(rating => 
+                rating.userID === req.body.userID
+            );
+
+            const updateIndex = question.ratings.indexOf(userRating);
+            
+            if (userRating.rating == req.body.rating) {
+                // User is removing their rating
+                console.log("User is removing their rating");
+                question.ratings.splice(updateIndex, 1);
+                question.rating = parseInt(question.rating) - req.body.rating;
+            }
+            else {
+                // User is switching their rating (e.g. upvote to downvote)
+                console.log("User is switching their vote");
+                userRating.rating = userRating.rating == 1 ? -1 : 1;
+                question.ratings[updateIndex] = userRating;
+
+                question.rating = parseInt(question.rating) + (2 * parseInt(req.body.rating));
+            }
+        }
+
+        await question.save();
+        res.json(question);
+        
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');

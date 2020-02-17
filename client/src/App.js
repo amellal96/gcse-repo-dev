@@ -11,6 +11,7 @@ import Dashboard from './pages/dashboard/dashboard.component';
 import SubmittedQuestions from './pages/submitted-questions/submitted-questions.component';
 import SavedQuestions from './pages/saved-questions/saved-questions.component';
 import PrivateRoute from './components/routing/PrivateRoute';
+import Alert from './components/alert/alert.component';
 
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
@@ -31,6 +32,7 @@ const App = () => {
   return (
     <div>
       <Header />
+      <Alert />
       <Switch> 
         <Route exact path='/' component={HomePage} />
         <Route path='/upload' component={Upload} />

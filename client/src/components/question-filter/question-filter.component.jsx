@@ -13,6 +13,10 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
         'difficulty': {
             min: 1,
             max: 9
+        },
+        'marks': {
+            min: 1,
+            max: 9
         }
     })
 
@@ -21,34 +25,54 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
     }, [filterQuestions, questions, filterOptions]);
 
     const changeExamBoards = (e, filterOptions) => {
-        // console.log("Changing exam board");
+        e.preventDefault();
         if(e.target.checked && !(filterOptions.examBoards.includes(e.target.value))) {
             setfilterOptions({ ...filterOptions, examBoards: [...filterOptions.examBoards, e.target.value] });
         }
         else {
             setfilterOptions({ ...filterOptions, examBoards: [...filterOptions.examBoards.filter(item => item !== e.target.value)] });
         }
-
-        // filterQuestions(filterOptions, questions);
     };
 
     const changeTopics = (e, filterOptions) => {
-        console.log("Changing topics");
+        e.preventDefault();
         if(e.target.checked && !(filterOptions.topics.includes(e.target.value))) {
             setfilterOptions({ ...filterOptions, topics: [...filterOptions.topics, e.target.value] });
         }
         else {
             setfilterOptions({ ...filterOptions, topics: [...filterOptions.topics.filter(item => item !== e.target.value)] });
         }
-        
-        // filterQuestions(filterOptions, questions);
     };
 
     const changeDifficulty = (e, filterOptions) => {
-        console.log("Changing difficulty");
-        
-        // setfilterOptions({ ...filterOptions, topics: [...filterOptions.topics, e.target.value] });
+        e.preventDefault();
+        if (e.target.name === "min") {
+            setfilterOptions({ ...filterOptions, 
+                difficulty: { ...filterOptions.difficulty, min: e.target.value ? e.target.value : 1 }});
+        }
+        else {
+            setfilterOptions({ ...filterOptions, 
+                difficulty: { ...filterOptions.difficulty, max: e.target.value ? e.target.value : 9 }});
+        }
     };
+
+    const changeMarks = (e, filterOptions) => {
+        e.preventDefault();
+        if (e.target.name === "min") {
+            setfilterOptions({ ...filterOptions, 
+                marks: { ...filterOptions.marks, min: e.target.value ? e.target.value : 1 }});
+        }
+        else {
+            setfilterOptions({ ...filterOptions, 
+                marks: { ...filterOptions.marks, max: e.target.value ? e.target.value : 9 }});
+        }
+    };
+
+    const refreshPage = (e) => {
+        e.preventDefault();
+
+        window.location.reload();
+    }
 
     return (
         <div className='container'>
@@ -73,28 +97,21 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
 
                 <h5>Difficulty</h5>
                 <div className='option-container' onChange={e => changeDifficulty(e, filterOptions)}>
-                    <label class="col-form-label col-form-label-sm" for="inputSmall">From</label>
-                    <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="inputSmall"></input>
-                    <label class="col-form-label col-form-label-sm" for="inputSmall">To</label>
-                    <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="inputSmall"></input>
+                    <label className="col-form-label col-form-label-sm" htmlFor="inputSmall">From</label>
+                    <input name="min" className="form-control form-control-sm" type="text"  id="inputSmall"></input>
+                    <label name="max" className="col-form-label col-form-label-sm" htmlFor="inputSmall">To</label>
+                    <input className="form-control form-control-sm" type="text" id="inputSmall"></input>
                 </div>
-            
-                {/* <div className="form-group">
-                    <h6>Difficulty</h6>
-                    <select className="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                    </select>
-                </div> */}
 
-                <button type="button" className="btn btn-primary">Clear</button>
+                <h5>Marks</h5>
+                <div className='option-container' onChange={e => changeMarks(e, filterOptions)}>
+                    <label className="col-form-label col-form-label-sm" htmlFor="inputSmall">From</label>
+                    <input name="min" className="form-control form-control-sm" type="text"  id="inputSmall"></input>
+                    <label name="max" className="col-form-label col-form-label-sm" htmlFor="inputSmall">To</label>
+                    <input className="form-control form-control-sm" type="text" id="inputSmall"></input>
+                </div>
+
+                <button type="button" className="btn btn-primary" onClick={e => refreshPage(e)}>Clear</button>
             </form>
         </div>
     )

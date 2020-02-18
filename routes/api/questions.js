@@ -27,18 +27,51 @@ async(req, res) => {
     }
     catch(err) {
         console.error(err.message);
-        console.error("THIS DIDN'T WORK");
         res.status(500).send('Server error');
     }
-}
-);
+});
+
+// @route   POST api/questions
+// @desc    Edit question
+router.post('/:edit', [],
+async(req, res) => {
+    const { questionId, questionText, answer, marks, difficulty, examBoards, topics } = req.body.questionId;
+    try {
+        const question = await Question.findById(questionId);
+
+        question.question = questionText;
+        question.answer = answer;
+        question.marks = marks;
+        question.difficulty = difficulty;
+        question.examBoards = examBoards;
+        question.topics = topics;
+
+        await question.save();
+    }
+    catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
 
 // @route   POST api/questions
 // @desc    Get questions
-// @access  Private
 router.get('/', async (req, res) => {
     try {
         const questions = await Question.find();
+        res.json(questions);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route   POST api/questions
+// @desc    Get question
+// @access  Private
+router.get('/getQuestion/:questionId', async (req, res) => {
+    try {
+        const questions = await Question.findById(req.params.questionId);
         res.json(questions);
     } catch(err) {
         console.error(err.message);

@@ -1,24 +1,37 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
-import { getSubmittedQuestions, deleteQuestion, publishQuestion, unpublishQuestion } from '../../actions/questions'
-
-// import BrowseContainer from '../../components/browse-container/browse-container.component';
+import { 
+    getSubmittedQuestions, 
+    deleteQuestion, 
+    publishQuestion, 
+    unpublishQuestion,
+    getQuestion
+ } from '../../actions/questions'
 
 const SubmittedQuestions = ({ 
     getSubmittedQuestions, 
     deleteQuestion, 
     publishQuestion,
     unpublishQuestion,
-    question: { questions }, 
+    getQuestion,
+    question: { questions, question }, 
     user: { user } 
 }) => {
+
+    const[questionToEdit, editButton] = useState({
+        questionId: ''
+    })
+
     useEffect(() => {
         getSubmittedQuestions(user && user.email);
     }, [getSubmittedQuestions, user]);
 
-    // <button type="button" class="btn btn-danger">Danger</button>
+    // useEffect(() => {
+    //     editQuestion(questionToEdit.questionId);
+    // }, [editQuestion, questionToEdit.questionId])
     
     const published = (questionId) => (
         <div className='save'>
@@ -41,6 +54,21 @@ const SubmittedQuestions = ({
             </button>
         </div>
     )
+
+    const edit = async e => {
+        e.preventDefault();
+        editButton({...questionToEdit, questionId: e.target.value})
+        getQuestion(e.target.value);
+
+        // console.log("Printing question in state");
+        // console.log(question && question);
+    }
+
+    if(question) {
+        console.log("FOUND QUESTION");
+        console.log(question);
+        return <Redirect to='/edit' />
+    }
 
     return (
         <div className='homepage'>  
@@ -71,7 +99,7 @@ const SubmittedQuestions = ({
                             { question && question.published ? published(question._id) : unpublished(question._id) }
                         </td>
                         <td>
-                            <button type="button" className="btn btn-info">Edit</button>
+                            <button type="button" value={question._id} className="btn btn-info" onClick={e => edit(e, question._id)}>Edit</button>
 
                             <button 
                             type="button" 
@@ -95,6 +123,7 @@ SubmittedQuestions.propTypes = {
     deleteQuestion: PropTypes.func.isRequired,
     publishQuestion: PropTypes.func.isRequired,
     unpublishQuestion: PropTypes.func.isRequired,
+    getQuestion: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
 };
 
@@ -107,6 +136,7 @@ export default connect(mapStateToProps, {
     getSubmittedQuestions, 
     deleteQuestion, 
     publishQuestion, 
-    unpublishQuestion }) 
-    (SubmittedQuestions
-);
+    unpublishQuestion,
+    getQuestion 
+}) 
+(SubmittedQuestions);

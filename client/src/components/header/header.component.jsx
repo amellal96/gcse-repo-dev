@@ -9,38 +9,38 @@ import './header.styles.scss';
 
 const Header = ({ auth: {isAuthenticated, loading}, logout }) => {
     const authLinks = (
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/dashboard" >HOME<span class="sr-only">(current)</span></a>
+        <div className="collapse navbar-collapse" id="navbarColor01">
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                    <a className="nav-link" href="/dashboard" >HOME<span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/browse" >BROWSE<span class="sr-only">(current)</span></a>
+                <li className="nav-item active">
+                    <a className="nav-link" href="/browse" >BROWSE<span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/upload" >UPLOAD<span class="sr-only">(current)</span></a>
+                <li className="nav-item active">
+                    <a className="nav-link" href="/upload" >UPLOAD<span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active" onClick={logout}> 
-                    <a class="nav-link" href="/dashboard" >SIGN OUT<span class="sr-only">(current)</span></a>
+                <li className="nav-item active" onClick={logout}> 
+                    <a className="nav-link" href="/dashboard" >SIGN OUT<span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/" >ABOUT <span class="sr-only">(current)</span></a>
+                <li className="nav-item active">
+                    <a className="nav-link" href="/" >ABOUT <span className="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
     );
 
     const guestLinks = (
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/dashboard" >HOME<span class="sr-only">(current)</span></a>
+        <div className="collapse navbar-collapse" id="navbarColor01">
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                    <a className="nav-link" href="/dashboard" >HOME<span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/signin" >SIGN IN <span class="sr-only">(current)</span></a>
+                <li className="nav-item active">
+                    <a className="nav-link" href="/signin" >SIGN IN <span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/" >ABOUT<span class="sr-only">(current)</span></a>
+                <li className="nav-item active">
+                    <a className="nav-link" href="/" >ABOUT<span className="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
@@ -48,7 +48,7 @@ const Header = ({ auth: {isAuthenticated, loading}, logout }) => {
 
     return (
         <div className='navbar navbar-expand-lg navbar-dark bg-primary'>
-            <a class="navbar-brand" href="#">GCSE Repo</a>
+            <a className="navbar-brand" href="/">GCSE Repo</a>
 
             { !loading && (<Fragment>{ isAuthenticated ? authLinks : guestLinks  }</Fragment>) }
         </div> 

@@ -1,16 +1,20 @@
 import axios from 'axios';
 
+import { setAlert } from './alert';
+
 import {
     UPLOAD_SUCCESS,
     UPLOAD_FAIL,
     GET_QUESTIONS_SUCCESS,
+    GET_QUESTION,
     GET_QUESTIONS_FAIL,
     GET_SUBMITTED_QUESTIONS,
     DELETE_QUESTION,
     QUESTION_ERROR,
     QUESTION_PUBLISH_CHANGE,
     FILTER_QUESTIONS,
-    RATE_QUESTION
+    RATE_QUESTION,
+    EDIT_QUESTION
 } from '../redux/question/question.types';
 
 export const upload = ({ question, answer, marks, difficulty, examBoards, topics, submittedBy }) => async dispatch => {
@@ -30,7 +34,7 @@ export const upload = ({ question, answer, marks, difficulty, examBoards, topics
         dispatch({
             type: UPLOAD_SUCCESS,
             payload: res.data
-          });
+        });
     }
     catch(err) {
         console.log("FIRST BIT DIDN'T WORK");
@@ -62,8 +66,6 @@ export const getQuestions = () => async dispatch => {
 }
 
 export const getSubmittedQuestions = email => async dispatch => {
-    console.log("Printing email")
-    console.log(email);
     try {
         const res = await axios.get(`/api/questions/${email}`);
         
@@ -215,6 +217,51 @@ export const rateQuestion = (rating, questionId, userId) => async dispatch => {
         })
 
     } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
+}
+
+export const getQuestion = (questionId) => async dispatch => {
+    // console.log("Editing questions ROUTE");
+
+    try {
+        const res = await axios.get(`/api/questions/getQuestion/${questionId}`)
+        dispatch ({
+            type: GET_QUESTION,
+            payload: res.data
+        })
+    } catch(err) {
+        dispatch({
+            type: QUESTION_ERROR
+        })
+    }
+}
+
+export const editQuestion = (questionId, questionTest, answer, marks, difficulty, examBoards, topics, history) => async dispatch => {
+    console.log("Editing question ROUTE");
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const body = JSON.stringify({ questionId, questionTest, answer, marks, difficulty, examBoards, topics });
+
+    try {
+        const res = await axios.post('/api/questions/edit', body, config);
+
+        dispatch({
+            type: EDIT_QUESTION,
+            payload: res.data
+        });
+
+        dispatch(setAlert("Question successfully edited!", 'success'));
+
+        // history.push("/submitted-questions");
+    } catch (err) {
         dispatch({
             type: QUESTION_ERROR
         })

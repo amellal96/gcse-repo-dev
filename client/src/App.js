@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './components/header/header.component';
 
 import Upload from './pages/upload/upload.component';
+import EditQuestion from './pages/edit-question/edit-question.component';
 import HomePage from './pages/homepage/homepage.component';
 import Browse from './pages/browse/browse.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
@@ -36,6 +37,7 @@ const App = () => {
       <Switch> 
         <Route exact path='/' component={HomePage} />
         <Route path='/upload' component={Upload} />
+        <Route path='/edit' component={EditQuestion} />
         <Route path='/browse' component={Browse} />
         <Route path='/signin' component={SignInAndSignUpPage} />
         <Route path='/submitted-questions' component={SubmittedQuestions} />

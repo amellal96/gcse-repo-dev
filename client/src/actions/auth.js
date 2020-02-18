@@ -40,8 +40,6 @@ export const register = ({ firstName, surname, email, password, accountType }) =
     }
   };
 
-  console.log("Register in action happening");
-
   const body = JSON.stringify({ firstName, surname, email, password, accountType });
 
   try {
@@ -54,11 +52,11 @@ export const register = ({ firstName, surname, email, password, accountType }) =
 
     dispatch(loadUser());
   } catch (err) {
-    // const errors = err.response.data.errors;
+    const errors = err.response.data.errors;
 
     if (err) {
       console.log(err);
-      // errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -88,6 +86,7 @@ export const login = (email, password) => async dispatch => {
   }
   catch(err) {
     const errors = err.response.data.errors;
+    console.log(errors);
 
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));

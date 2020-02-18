@@ -30,10 +30,10 @@ router.post('/', [
     check('password', 'Password is required').exists()
     ], 
     async (req, res) => {
-        // const errors = validationResult(req);
-        // if (!errors.isEmpty()) {
-        //     return res.status(400).json({ errors: errors.array() });
-        // }
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
         const { email, password } = req.body;
 
@@ -43,15 +43,15 @@ router.post('/', [
             if(!user) {
                 return res
                     .status(400)
-                    .json({ erros: [{ msg: 'Invalid credentials' }] });
+                    .json({ errors: [{ msg: 'Invalid credentials' }] });
             }
-            console.log("Bcrypt compare");
+
             const isMatch = await bcrypt.compare(password, user.password);
-            console.log("Comparison done!");
+
             if(!isMatch) {
                 return res
                     .status(400)
-                    .json({ erros: [{ msg: 'Invalid credentials' }] });
+                    .json({ errors: [{ msg: 'Invalid credentials' }] });
             }
             else {
                 console.log("MATCHED");

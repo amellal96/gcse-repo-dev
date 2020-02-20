@@ -46,7 +46,7 @@ const Header = ({ auth: {isAuthenticated, loading, user}, logout }) => {
                     <a className="nav-link" href="/" >ABOUT <span className="sr-only">(current)</span></a>
                 </li>
             </ul>
-        </div>
+        </div> 
     )
 
     const guestLinks = (

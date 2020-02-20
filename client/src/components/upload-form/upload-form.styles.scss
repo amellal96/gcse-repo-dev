@@ -1,33 +1,40 @@
 .upload-question {
+    padding: 10px;
     width: 100%;
     flex-direction: column;
-    border: solid; 
+    border: solid;
+    border-radius: 20px;
 
     .question-container {
-      width: 80%;
       display: flex;
-      margin: auto;
       justify-content: space-evenly;
     }
 
     .question-answer {
       flex-direction: column;
-      width: 50%;
-      display: flex;
+      width: 30%;
     }
 
     .option-selection {
       column-count: 2;
     }
-
+    
     .question-option-container {
       display: block;
+      margin: auto;
+      margin-left: 10%
     }
 
-    .btn.btn-primary {
-        margin: auto;
-        margin-left: 80%;
+    .btn {
+      height: 100%;
     }
 
-  }
+    .btn.btn-secondary {
+      height: 70%;
+    }
+
+    .form-control.small {
+      width: 25%;
+    }
+}
 

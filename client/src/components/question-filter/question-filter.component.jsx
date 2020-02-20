@@ -25,7 +25,7 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
     }, [filterQuestions, questions, filterOptions]);
 
     const changeExamBoards = (e, filterOptions) => {
-        e.preventDefault();
+        // e.preventDefault();
         if(e.target.checked && !(filterOptions.examBoards.includes(e.target.value))) {
             setfilterOptions({ ...filterOptions, examBoards: [...filterOptions.examBoards, e.target.value] });
         }
@@ -35,7 +35,7 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
     };
 
     const changeTopics = (e, filterOptions) => {
-        e.preventDefault();
+        // e.preventDefault();
         if(e.target.checked && !(filterOptions.topics.includes(e.target.value))) {
             setfilterOptions({ ...filterOptions, topics: [...filterOptions.topics, e.target.value] });
         }
@@ -98,17 +98,17 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
                 <h5>Difficulty</h5>
                 <div className='option-container' onChange={e => changeDifficulty(e, filterOptions)}>
                     <label className="col-form-label col-form-label-sm" htmlFor="inputSmall">From</label>
-                    <input name="min" className="form-control form-control-sm" type="text"  id="inputSmall"></input>
+                    <input name="min" className="form-control form-control-sm filter" type="text"  id="inputSmall"></input>
                     <label name="max" className="col-form-label col-form-label-sm" htmlFor="inputSmall">To</label>
-                    <input className="form-control form-control-sm" type="text" id="inputSmall"></input>
+                    <input className="form-control form-control-sm filter" type="text" id="inputSmall"></input>
                 </div>
 
                 <h5>Marks</h5>
                 <div className='option-container' onChange={e => changeMarks(e, filterOptions)}>
                     <label className="col-form-label col-form-label-sm" htmlFor="inputSmall">From</label>
-                    <input name="min" className="form-control form-control-sm" type="text"  id="inputSmall"></input>
+                    <input name="min" className="form-control form-control-sm filter" type="text"  id="inputSmall"></input>
                     <label name="max" className="col-form-label col-form-label-sm" htmlFor="inputSmall">To</label>
-                    <input className="form-control form-control-sm" type="text" id="inputSmall"></input>
+                    <input className="form-control form-control-sm filter" type="text" id="inputSmall"></input>
                 </div>
 
                 <button type="button" className="btn btn-primary" onClick={e => refreshPage(e)}>Clear</button>

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
+const fs = require('fs');
 
 const Question = require('../../models/Question');
 // const ObjectId = require('mongodb');
@@ -10,7 +11,6 @@ const Question = require('../../models/Question');
 // @access  Private
 router.post('/', [],
 async(req, res) => {
-    console.log(req.body);
     const { question, answer, marks, difficulty, examBoards, topics, submittedBy } = req.body;
     try {
         questionUpload = new Question({
@@ -23,7 +23,8 @@ async(req, res) => {
             submittedBy
         })
         
-        await questionUpload.save();
+        const questionRes = await questionUpload.save();
+        res.json(questionRes);
     }
     catch(err) {
         console.error(err.message);
@@ -46,7 +47,8 @@ async(req, res) => {
         question.examBoards = examBoards;
         question.topics = topics;
 
-        await question.save();
+        const questionRes = await question.save();
+        res.json(questionRes);
     }
     catch(err) {
         console.error(err.message);
@@ -58,7 +60,7 @@ async(req, res) => {
 // @desc    Get questions
 router.get('/', async (req, res) => {
     try {
-        const questions = await Question.find();
+        const questions = await Question.find({ published: true });
         res.json(questions);
     } catch(err) {
         console.error(err.message);
@@ -94,9 +96,8 @@ router.get('/:submitted', async (req, res) => {
 // @route   GET api/questions
 // @desc    Get saved questions
 router.get('/getsaved/:questionIds', async (req, res) => {
-    console.log("Saved Questions DB call");
     try {
-        const questions = await Question.find({_id: {$in: req.query.questionIds}});
+        const questions = await Question.find({ _id: {$in: req.query.questionIds }, published: true });
         res.json(questions);
     } catch(err) {
         console.error(err.message);
@@ -121,7 +122,6 @@ router.put('/publish/:questionId', async (req, res) => {
 // @route   PUT api/questions
 // @desc    Unpublish question
 router.put('/unpublish/:questionId', async (req, res) => {
-    console.log("Unpublish Question");
     try {
         const question = await Question.findById(req.params.questionId);
         question.published = false;
@@ -136,26 +136,20 @@ router.put('/unpublish/:questionId', async (req, res) => {
 // @route PUT api/questions
 // @desc Rate question
 router.put('/rate', async (req, res) => {
-    console.log("Rating Questions DB");
     try {
         const question = await Question.findById(req.body.questionId);
         
         if (!(question.ratings.some(rating => rating.userID === req.body.userID))) {
             // User has not rated the question
-            console.log("User has not rated this question");
             
             question.ratings.unshift({
                 userID: req.body.userID,
                 rating: req.body.rating
             })
 
-            console.log(`Rating before change: ${question.rating}`);
-            // question.rating = req.body.rating == 1 ? question.rating++ : question.rating--;
             question.rating = parseInt(question.rating) + parseInt(req.body.rating);
-            console.log(`Rating after change: ${question.rating}`);
         }
         else {
-            console.log("User has already rated question");
             userRating = question.ratings.find(rating => 
                 rating.userID === req.body.userID
             );
@@ -164,13 +158,11 @@ router.put('/rate', async (req, res) => {
             
             if (userRating.rating == req.body.rating) {
                 // User is removing their rating
-                console.log("User is removing their rating");
                 question.ratings.splice(updateIndex, 1);
                 question.rating = parseInt(question.rating) - req.body.rating;
             }
             else {
                 // User is switching their rating (e.g. upvote to downvote)
-                console.log("User is switching their vote");
                 userRating.rating = userRating.rating == 1 ? -1 : 1;
                 question.ratings[updateIndex] = userRating;
 

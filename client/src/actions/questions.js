@@ -35,14 +35,16 @@ export const upload = ({ question, answer, marks, difficulty, examBoards, topics
             type: UPLOAD_SUCCESS,
             payload: res.data
         });
+
+    dispatch(setAlert("Question successfully uploaded!", 'success'));
     }
     catch(err) {
         console.log("FIRST BIT DIDN'T WORK");
-        // const errors = err.response.data.errors;
+        const errors = err.response.data.errors;
   
-    //   if (errors) {
-    //     console.log(err);
-    //   }
+        if (errors) {
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+          }
 
       dispatch({
           type:UPLOAD_FAIL
@@ -98,7 +100,6 @@ export const getSavedQuestions = questionIds => async dispatch => {
 } 
 
 export const deleteQuestion = questionId => async dispatch => { 
-    console.log(`Deleting question: ${questionId}`);
     try {
         await axios.delete(`/api/questions/${questionId}`)
 
@@ -106,6 +107,8 @@ export const deleteQuestion = questionId => async dispatch => {
             type: DELETE_QUESTION,
             payload: questionId
         })
+
+        dispatch(setAlert("Question deleted", 'success'));
     } catch(err) {
         dispatch({
             type: QUESTION_ERROR
@@ -114,7 +117,6 @@ export const deleteQuestion = questionId => async dispatch => {
 }
 
 export const publishQuestion = questionId => async dispatch => {
-    console.log("Publishing question");
     try {
         const res = await axios.put(`/api/questions/publish/${questionId}`)
 
@@ -130,7 +132,6 @@ export const publishQuestion = questionId => async dispatch => {
 }
 
 export const unpublishQuestion = questionId => async dispatch => {
-    console.log("Unpublishing question");
     try {
         const res = await axios.put(`/api/questions/unpublish/${questionId}`)
 
@@ -146,47 +147,36 @@ export const unpublishQuestion = questionId => async dispatch => {
 };
 
 export const filterQuestions = (filters, questions) => async dispatch => {
-    console.log("FILTERING QUESTIONS");
-    console.log(questions);
-    console.log(filters);
-
     var filteredQuestions = []
     
     // Filter exam boards
     if(filters.examBoards.length) {
-        // console.log("Found exam boards to filter");
         filteredQuestions = questions.filter(
             question => question.examBoards.some(
                 examBoard => filters.examBoards.includes(examBoard))
         );
     }
-    else{
+    else {
         filteredQuestions = questions;
     }
 
-    // console.log(`Length of filteredQuestions after examBoards: ${filteredQuestions.length}`)
-
     // Filter topics
     if(filters.topics.length) {
-        // console.log("Found topics to filter");
         filteredQuestions = filteredQuestions.filter(
             question => question.topics.some(
                 topic => filters.topics.includes(topic))
         );
     }
-    // console.log(`Length of filteredQuestions after topics: ${filteredQuestions.length}`)
 
     // Difficutly range
     filteredQuestions = filteredQuestions.filter(
         question => question.difficulty <= filters.difficulty.max && question.difficulty >= filters.difficulty.min
     );
-    // console.log(`Length of filteredQuestions after difficulty: ${filteredQuestions.length}`);
 
     // Marks range
     filteredQuestions = filteredQuestions.filter(
         question => question.marks <= filters.marks.max && question.marks >= filters.marks.min
     );
-    console.log("________________________________");
 
     try {
         dispatch({
@@ -201,8 +191,6 @@ export const filterQuestions = (filters, questions) => async dispatch => {
 };
 
 export const rateQuestion = (rating, questionId, userId) => async dispatch => {
-    console.log("Rating Questions ROUTE");
-    
     try {
         const params =  { 
             rating: rating,
@@ -224,8 +212,6 @@ export const rateQuestion = (rating, questionId, userId) => async dispatch => {
 }
 
 export const getQuestion = (questionId) => async dispatch => {
-    // console.log("Editing questions ROUTE");
-
     try {
         const res = await axios.get(`/api/questions/getQuestion/${questionId}`)
         dispatch ({
@@ -259,8 +245,6 @@ export const editQuestion = (questionId, questionTest, answer, marks, difficulty
         });
 
         dispatch(setAlert("Question successfully edited!", 'success'));
-
-        // history.push("/submitted-questions");
     } catch (err) {
         dispatch({
             type: QUESTION_ERROR

@@ -1,3 +1,13 @@
 .browse-container {
     display: flex; 
+    
+}
+
+.filter-container {
+    position:fixed;
+    border: solid;
+}
+
+.table.table-hover.browse {
+    margin-left: 275px;
 }

@@ -52,24 +52,17 @@ const BrowseContainer = ({ getQuestions,
         rating.userID === (user && user._id)
       );
 
-      console.log(question.ratings);
-      console.log(user && user._id);
-
       if (!userRating) {
-        console.log("User rating does not exist");
         return null;
       }
 
       if (userRating && userRating.rating === -1) {
-        console.log("Returning downvote")
         return "downvote"
       }
       else if (userRating && userRating.rating === 1) {
-        console.log("Returning upvote")
         return "upvote";
       }
       else {
-        console.log("Returning null")
         return null;
       }
       
@@ -83,7 +76,7 @@ const BrowseContainer = ({ getQuestions,
           <QuestionFilter />
         </div>
         
-        <table className='table table-hover'>
+        <table className='table table-hover browse'>
           <thead>
             <tr>
               <th>Question</th>

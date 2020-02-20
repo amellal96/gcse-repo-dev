@@ -5,7 +5,6 @@ import { editQuestion } from '../../actions/questions';
 import { Redirect } from 'react-router';
 import { withRouter } from "react-router-dom";
 
-import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
 import './edit-question-form.styles.scss';
@@ -62,19 +61,57 @@ const EditForm = ({ editQuestion, history, question: { question } }) => {
         return false;
     }
 
+    const addSymbolQuestion = async e => {
+        setFormData({ ...formData, questionText: [formData.questionText] + (e.target.value) });
+    }
+
+    const addSymbolAnswer = async e => {
+        setFormData({ ...formData, answer: [formData.answer] + (e.target.value) });
+    }
+
     return ( 
         <div className='upload-question'>
             <h2>Edit Question</h2>
             <form className='question-container' onSubmit={e => onSubmit(e)}>
                 <div className='question-answer'>
-                    <FormInput  
-                        type='text'
-                        name='questionText'
-                        value={questionText}
-                        onChange={e => onChange(e)}
-                        label='Question' 
+                    <h3>Question</h3>
+                    <label htmlFor="exampleTextarea">Add Indices</label>
+                    <div className="btn-toolbar" onClick={e => addSymbolQuestion(e)} role="toolbar" aria-label="Toolbar with button groups">
+                        <div className="btn-group mr-2" role="group" aria-label="First group">
+                            <button type="button" value="²" className="btn btn-secondary">²</button>
+                            <button type="button" value="³" className="btn btn-secondary">³</button>
+                            <button type="button" value="⁴" className="btn btn-secondary">⁴</button>
+                            
+                        </div>
+                        <div className="btn-group mr-2" role="group" aria-label="Second group">
+                            <button type="button" value="°" className="btn btn-secondary">°</button>
+                        </div>
+                    </div>
+                    <textarea  
+                            className='form-control'
+                            rows='3'
+                            type='text'
+                            name='questionText'
+                            value={questionText}
+                            onChange={e => onChange(e)}
+                            label='Question' 
                     />
-                    <FormInput  
+                    <h3>Answer</h3>
+                    <label htmlFor="exampleTextarea">Add Indices</label>
+                    <div className="btn-toolbar" onClick={e => addSymbolAnswer(e)} role="toolbar" aria-label="Toolbar with button groups">
+                        <div className="btn-group mr-2" role="group" aria-label="First group">
+                            <button type="button" value="²" className="btn btn-secondary">²</button>
+                            <button type="button" value="³" className="btn btn-secondary">³</button>
+                            <button type="button" value="⁴" className="btn btn-secondary">⁴</button>
+                            
+                        </div>
+                        <div className="btn-group mr-2" role="group" aria-label="Second group">
+                        <button type="button" value="°" className="btn btn-secondary">°</button>
+                        </div>
+                    </div>
+                    <textarea  
+                        className='form-control'
+                        rows='3'
                         type='text'
                         name='answer'
                         value={answer}
@@ -132,15 +169,23 @@ const EditForm = ({ editQuestion, history, question: { question } }) => {
                     />
 
                     <h3>Grade</h3>
-                    <FormInput  
-                            type='text'
-                            name='difficulty'
-                            value={difficulty}
-                            onChange={e => onChange(e)}
-                            label='Difficulty'
-                    />
+                    <select className="form-control small" 
+                    name='difficulty'
+                    value={difficulty}
+                    onChange={e => onChange(e)}
+                    >
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                    </select>
                 </div>
-                <CustomButton type='submit'>UPDATE</CustomButton>
+                <input type='submit' className='btn btn-primary btn-lg' value='UPDATE' />
             </form>
         </div> 
     );

@@ -9,6 +9,10 @@ const QuestionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    imgAnswer: {
+        data: Buffer, 
+        contentType: String
+    },
     marks: {
         type: String,
         required: true

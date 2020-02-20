@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { getSavedQuestions } from '../../actions/questions';
 import { saveQuestion, unsaveQuestion } from '../../actions/user';
 
+import './saved-questions.styles.scss';
+
 const SavedQuestions = ({ getSavedQuestions, saveQuestion, unsaveQuestion, question: { questions }, user: { user }}) => {
     useEffect(() => {
         getSavedQuestions(user && user.savedQuestions);

@@ -1,6 +1,12 @@
 .container {
-    border: solid;
     height: 100%;
     width: 20rem;
-    overflow: hidden;
+}
+
+.question-option-container {
+    margin-left: 10%;
+}
+
+.form-control.form-control-sm.filter {
+    width: 100%;
 }

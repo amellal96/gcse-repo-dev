@@ -59,19 +59,15 @@ const SubmittedQuestions = ({
         e.preventDefault();
         editButton({...questionToEdit, questionId: e.target.value})
         getQuestion(e.target.value);
-
-        // console.log("Printing question in state");
-        // console.log(question && question);
     }
 
     if(question) {
-        console.log("FOUND QUESTION");
-        console.log(question);
         return <Redirect to='/edit' />
     }
 
     return (
         <div className='homepage'>  
+            <h1>My Questions</h1>
             <table className='table table-hover'>
             <thead>
                 <tr>

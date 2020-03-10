@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import square from '../../images/square.png';
 
@@ -30,9 +30,7 @@ const DashboardOptions = ({ accountType }) => {
                         </div>
                     </div>
                 : '' }
-
                 
-
                 <div className='dashboard-option'>
                     <Link to='/saved-questions'>
                         <div className='option-text'>Saved Questions</div>

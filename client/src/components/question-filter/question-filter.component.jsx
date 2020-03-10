@@ -25,7 +25,6 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
     }, [filterQuestions, questions, filterOptions]);
 
     const changeExamBoards = (e, filterOptions) => {
-        // e.preventDefault();
         if(e.target.checked && !(filterOptions.examBoards.includes(e.target.value))) {
             setfilterOptions({ ...filterOptions, examBoards: [...filterOptions.examBoards, e.target.value] });
         }
@@ -80,7 +79,7 @@ const QuestionFilter = ({ question: { questions }, filterQuestions}) => {
             <form className='option'>
                 <h5>Exam Boards</h5>
                 <div className='option-container' onChange={e => changeExamBoards(e, filterOptions)}>
-                    <div className='question-option-container' ><input className='question-option' type="checkbox" name="AQA" value="AQA" /> AQA</div>
+                    <div className='question-option-container'><input className='question-option' type="checkbox" name="AQA" value="AQA" /> AQA</div>
                     <div className='question-option-container'><input className='question-option' type="checkbox" name="Edexcel" value="Edexcel" /> Edexcel</div>
                     <div className='question-option-container'><input className='question-option' type="checkbox" name="OCR" value="OCR" /> OCR</div>
                     <div className='question-option-container'><input className='question-option' type="checkbox" name="WJEC" value="WJEC" /> WJEC</div>

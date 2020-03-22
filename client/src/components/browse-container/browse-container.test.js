@@ -23,12 +23,24 @@ describe('BrowseContainer component', () => {
         store = mockStore({
             question: {
                 questions: [{
+                    _id: '1',
                     topics: [],
                     examBoards: [],
                     ratings: [{}]
-                }]
-            },
-            user: []
+                }, 
+                {
+                    _id: '2',
+                    topics: [],
+                    examBoards: [],
+                    ratings: [{}]
+                },
+            ]},
+            
+            user: {
+                user: {
+                    savedQuestions: ['1']
+                }
+            }
         });
 
         store.dispatch = jest.fn();
@@ -50,11 +62,15 @@ describe('BrowseContainer component', () => {
         </Provider>);
     });
 
-    // it('should match the snapshot', () => {
-    //     expect(wrapper.html()).toMatchSnapshot(); 
-    // });
-
-    it('should render browse container', () => {
-        expect(wrapper.find('.browse-container')).toHaveLength(1);
+    it('should match the snapshot', () => {
+        expect(wrapper.html()).toMatchSnapshot(); 
     });
+
+    it('should render 2 rows in table', () => {
+        expect(wrapper.find('.table-active')).toHaveLength(2);
+    });
+
+    it('should render 1 "unsave" button', () => {
+        expect(wrapper.find('.unsave')).toHaveLength(1);
+    })
 });

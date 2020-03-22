@@ -1,7 +1,8 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk'
-import { mount } from 'enzyme';
+import thunk from 'redux-thunk';
+import {Provider} from 'react-redux';
+import { mount, shallow } from 'enzyme';
 
 import QuestionFilter from './question-filter.component';
 
@@ -33,7 +34,9 @@ describe('QuestionFilter component', () => {
             changeDifficulty: mockChangeDifficulty
         }
         
-        wrapper = mount(<QuestionFilter {...mockProps} />)
+        wrapper = mount(<Provider store={store}>
+            <QuestionFilter {...mockProps} />
+        </Provider>)
     });
 
     // it('expect changeExamBoards to be called', () => {
@@ -82,7 +85,6 @@ describe('QuestionFilter component', () => {
 
     it('check reload page occurs', () => {
         const mockEvent = { preventDefault: jest.fn() };
-        
 
         window.location.reload = jest.fn();
 

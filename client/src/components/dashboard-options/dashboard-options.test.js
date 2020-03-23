@@ -14,8 +14,6 @@ jest.mock('react-router-dom/Link');
 describe('Dashboard Options with student login', () => {
     let store;
     let wrapper;
-    let mockHistory;
-    let mockLink;
 
     beforeEach(() => {
         store = mockStore({
@@ -27,13 +25,11 @@ describe('Dashboard Options with student login', () => {
         });
 
         store.dispatch = jest.fn();
-        mockHistory = { listen: jest.fn() };
-        mockLink = { to: jest.fn() };     
 
         wrapper = mount(
         <MemoryRouter >
                 <Provider store={store}>
-                    <DashboardOptions />
+                    <DashboardOptions accountType="student"/>
                 </Provider>
         </MemoryRouter>
         );
@@ -44,6 +40,39 @@ describe('Dashboard Options with student login', () => {
     });
 
     it('should render 2 dashboard options', () => {
-        expect(wrapper.find('.dashboard-options')).toHaveLength(2);
+        expect(wrapper.find('.dashboard-option')).toHaveLength(2);
     })
-})
+});
+
+describe('Dashboard Options with teacher login', () => {
+    let store;
+    let wrapper;
+    beforeEach(() => {
+        store = mockStore({
+            user: {
+                accountType: 'teacher',
+                user: {
+                    accountType: 'teacher'
+                }
+            }
+        });
+
+        store.dispatch = jest.fn();
+
+        wrapper = mount(
+        <MemoryRouter >
+                <Provider store={store}>
+                    <DashboardOptions accountType="teacher" />
+                </Provider>
+        </MemoryRouter>
+        );
+    })
+
+    it('should match the snapshot', () => {
+        expect(wrapper.html()).toMatchSnapshot();
+    });
+
+    it('should render 2 dashboard options', () => {
+        expect(wrapper.find('.dashboard-option')).toHaveLength(4);
+    })
+}) 

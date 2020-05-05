@@ -12,7 +12,7 @@ const UploadForm = ({ upload, user: { user } }) => {
     const[formData, setFormData] = useState({
         question: '',
         answer: '',
-        difficulty: '',
+        difficulty: 1,
         marks: '', 
         examBoards: [],
         topics: []
@@ -21,8 +21,11 @@ const UploadForm = ({ upload, user: { user } }) => {
     const { question, answer, marks, difficulty, examBoards, topics } = formData;
     const submittedBy = user && user.email;
 
-    const onChange = e => 
+    const onChange = e => {
+        console.log(e.target.value);
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+        
 
     const onSubmit = async e => {
         e.preventDefault();

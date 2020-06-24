@@ -16,7 +16,7 @@ const UploadForm = ({ upload, user: { user } }) => {
         marks: '', 
         examBoards: [],
         topics: []
-    })
+    }) 
 
     const { question, answer, marks, difficulty, examBoards, topics } = formData;
     const submittedBy = user && user.email;

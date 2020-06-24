@@ -60,7 +60,7 @@ describe('BrowseContainer component', () => {
         wrapper = mount(<Provider store={store}>
             <BrowseContainer {...mockProps} />
         </Provider>);
-    });
+    }); 
 
     it('should match the snapshot', () => {
         expect(wrapper.html()).toMatchSnapshot(); 

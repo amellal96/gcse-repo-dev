@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrowseContainer component should match the snapshot 1`] = `"<div class=\\"sign-in\\"><h2 class=\\"title\\">I have an account</h2><form class=\\"sign-in-form\\"><div class=\\"group\\"><label class=\\" form-input-label\\">Email</label><input class=\\"form-control\\" type=\\"email\\" name=\\"email\\" required=\\"\\" value=\\"\\"></div><div class=\\"group\\"><label class=\\" form-input-label\\">Password</label><input class=\\"form-control\\" type=\\"password\\" name=\\"password\\" required=\\"\\" value=\\"\\"></div><button class=\\"  custom-button\\" type=\\"submit\\">SIGN IN</button></form></div>"`;

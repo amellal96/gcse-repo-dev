@@ -36,7 +36,7 @@ export const upload = ({ question, answer, marks, difficulty, examBoards, topics
             payload: res.data
         });
 
-    dispatch(setAlert("Question successfully uploaded!", 'success'));
+        dispatch(setAlert("Question successfully uploaded!", 'success'));
     }
     catch(err) {
         console.log("FIRST BIT DIDN'T WORK");
@@ -49,6 +49,8 @@ export const upload = ({ question, answer, marks, difficulty, examBoards, topics
       dispatch({
           type:UPLOAD_FAIL
       });
+
+      dispatch(setAlert("Question has not been uploaded", 'danger'));
     }
 }
 
